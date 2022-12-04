@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "658567519769",
+    "project_id": "studybuddy-d48ac",
+    "storage_bucket": "studybuddy-d48ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658567519769:android:f2914a3fc39f2ed7731488",
+        "android_client_info": {
+          "package_name": "com.example.homeandmenu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658567519769-6orl7j8f6u2v239hp3lh6ca1sfk1dtqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8gK69clEXFHPBgvmYE71gvDp_5VMlC8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658567519769-6orl7j8f6u2v239hp3lh6ca1sfk1dtqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658567519769:android:22bacfa1c124f40a731488",
+        "android_client_info": {
+          "package_name": "com.example.studybuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658567519769-sob3ku1bard0phjdd3u99lhtd75sk8hi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.studybuddy",
+            "certificate_hash": "f1955d32a94e9540fae6246da2b13fb9a364a147"
+          }
+        },
+        {
+          "client_id": "658567519769-6orl7j8f6u2v239hp3lh6ca1sfk1dtqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8gK69clEXFHPBgvmYE71gvDp_5VMlC8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658567519769-6orl7j8f6u2v239hp3lh6ca1sfk1dtqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
