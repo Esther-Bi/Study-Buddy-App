@@ -58,6 +58,8 @@ import com.example.studybuddy.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
+
 public class ProfileActivity extends AppCompatActivity {
 
     EditText name, degree, year;

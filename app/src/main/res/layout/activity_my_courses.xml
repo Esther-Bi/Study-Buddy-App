@@ -76,6 +76,7 @@
         android:inputType="textPersonName"
         android:textSize="12dp"
         app:layout_constraintEnd_toStartOf="@+id/add_course"
+        app:layout_constraintBottom_toTopOf="@+id/grade_to_add"
         app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
