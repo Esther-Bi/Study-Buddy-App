@@ -60,8 +60,8 @@ public class MyCoursesActivity extends AppCompatActivity {
         grade = findViewById(R.id.grade_to_add);
 
         HashMap<String,String> courses = new HashMap<>();
-        courses.put("Math","95");
-        database.collection("courses").document(userUID).set(courses);
+//        courses.put("Math","95");
+//        database.collection("courses").document(userUID).set(courses);
 
         //onclick listener for register button
         add.setOnClickListener(v -> {
@@ -74,7 +74,7 @@ public class MyCoursesActivity extends AppCompatActivity {
             } else {
                 HashMap<String,String> my_courses = new HashMap<>();
                 my_courses.put(textCourse,textGrade);
-                database.collection("courses").document(userUID).update("courses.Math.95", "80");
+                database.collection("courses").document(userUID).update(textCourse, textGrade);
             }
         });
 
