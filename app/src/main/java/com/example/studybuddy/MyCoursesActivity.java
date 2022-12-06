@@ -23,14 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 
 public class MyCoursesActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference notebookRef = db.collection("teachers");
+    private CollectionReference coursesRef = db.collection("courses");
 
 
     private FirebaseAuth auth;
@@ -61,7 +60,7 @@ public class MyCoursesActivity extends AppCompatActivity {
 
         HashMap<String,String> courses = new HashMap<>();
 //        courses.put("Math","95");
-//        database.collection("courses").document(userUID).set(courses);
+        database.collection("courses").document(userUID).set(courses);
 
         //onclick listener for register button
         add.setOnClickListener(v -> {
@@ -82,7 +81,14 @@ public class MyCoursesActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        Query query = notebookRef.orderBy("year", Query.Direction.DESCENDING);
+
+//        auth = FirebaseAuth.getInstance();
+//        FirebaseUser user = auth.getCurrentUser();
+//
+//        assert user != null;
+//        String userUID = user.getUid();
+
+        Query query = coursesRef;
         FirestoreRecyclerOptions<Course> options = new FirestoreRecyclerOptions.Builder<Course>()
                 .setQuery(query, Course.class)
                 .build();
