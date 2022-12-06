@@ -59,7 +59,6 @@ public class MyCoursesActivity extends AppCompatActivity {
         grade = findViewById(R.id.grade_to_add);
 
         HashMap<String,String> courses = new HashMap<>();
-//        courses.put("Math","95");
         database.collection("courses").document(userUID).set(courses);
 
         //onclick listener for register button
@@ -82,11 +81,11 @@ public class MyCoursesActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
 
-//        auth = FirebaseAuth.getInstance();
-//        FirebaseUser user = auth.getCurrentUser();
-//
-//        assert user != null;
-//        String userUID = user.getUid();
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        assert user != null;
+        String userUID = user.getUid();
 
         Query query = coursesRef;
         FirestoreRecyclerOptions<Course> options = new FirestoreRecyclerOptions.Builder<Course>()

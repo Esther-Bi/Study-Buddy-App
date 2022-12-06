@@ -3,13 +3,13 @@ package com.example.studybuddy;
 public class Course {
 
     private String name;
-    private int grade;
+    private String grade;
 
     public Course() {
         //empty constructor needed
     }
 
-    public Course(String name, int grade) {
+    public Course(String name, String grade) {
         this.name = name;
         this.grade = grade;
     }
@@ -18,7 +18,7 @@ public class Course {
         return name;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return grade;
     }
 }
