@@ -1,270 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.example.studybuddy"
-android:versionCode="1"
-android:versionName="1.0" >
+    package="com.example.studybuddy"
+    android:versionCode="1"
+    android:versionName="1.0">
 
-<uses-sdk
-    android:minSdkVersion="22"
-    android:targetSdkVersion="32" />
+    <uses-sdk
+        android:minSdkVersion="22"
+        android:targetSdkVersion="32" />
 
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-<uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-<uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
 
-<application
-    android:allowBackup="true"
-    android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-    android:dataExtractionRules="@xml/data_extraction_rules"
-    android:debuggable="true"
-    android:fullBackupContent="@xml/backup_rules"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-    android:testOnly="true"
-    android:theme="@style/Theme.StudyBuddy" >
-    <activity
-        android:name="com.example.studybuddy.MyCoursesActivity"
-        android:exported="false" >
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:debuggable="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/Theme.StudyBuddy">
+        <activity
+            android:name="com.example.studybuddy.StudentHomeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.studybuddy.ChooseUserActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.studybuddy.MyCoursesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.studybuddy.ProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.studybuddy.HomeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.studybuddy.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-    <activity
-        android:name="com.example.studybuddy.ProfileActivity"
-        android:exported="false" >
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-    <activity
-        android:name="com.example.studybuddy.HomeActivity"
-        android:exported="false" >
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-    <activity
-        android:name="com.example.studybuddy.MainActivity"
-        android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_application_id" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity
+            android:name="com.firebase.ui.auth.KickoffActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/FirebaseUI.Transparent" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.idp.SingleSignInActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/FirebaseUI.Transparent" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.credentials.CredentialSaveActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/FirebaseUI.Transparent" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.RecoverPasswordActivity"
+            android:exported="false"
+            android:label="@string/fui_title_recover_password_activity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.EmailActivity"
+            android:exported="false"
+            android:label="@string/fui_sign_in_default"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.phone.PhoneActivity"
+            android:exported="false"
+            android:label="@string/fui_sign_in_with_phone_number"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.idp.WelcomeBackIdpPrompt"
+            android:exported="false"
+            android:label="@string/fui_title_welcome_back_idp_prompt"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.WelcomeBackPasswordPrompt"
+            android:exported="false"
+            android:label="@string/fui_title_welcome_back_password_prompt"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.WelcomeBackEmailLinkPrompt"
+            android:exported="false"
+            android:label="@string/fui_title_welcome_back_password_prompt"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.EmailLinkCatcherActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/FirebaseUI.Transparent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.email.EmailLinkErrorRecoveryActivity"
+            android:exported="false"
+            android:label="@string/fui_sign_in_default"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.firebase.ui.auth.ui.idp.AuthMethodPickerActivity"
+            android:exported="false"
+            android:label="@string/fui_default_toolbar_title" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-    <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
-    <meta-data
-        android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_application_id" />
+                <data android:scheme="@string/facebook_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
 
-    <activity
-        android:name="com.firebase.ui.auth.KickoffActivity"
-        android:exported="false"
-        android:label=""
-        android:theme="@style/FirebaseUI.Transparent" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.idp.SingleSignInActivity"
-        android:exported="false"
-        android:label=""
-        android:theme="@style/FirebaseUI.Transparent" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.credentials.CredentialSaveActivity"
-        android:exported="false"
-        android:label=""
-        android:theme="@style/FirebaseUI.Transparent" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.RecoverPasswordActivity"
-        android:exported="false"
-        android:label="@string/fui_title_recover_password_activity"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.EmailActivity"
-        android:exported="false"
-        android:label="@string/fui_sign_in_default"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.phone.PhoneActivity"
-        android:exported="false"
-        android:label="@string/fui_sign_in_with_phone_number"
-        android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.idp.WelcomeBackIdpPrompt"
-        android:exported="false"
-        android:label="@string/fui_title_welcome_back_idp_prompt"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.WelcomeBackPasswordPrompt"
-        android:exported="false"
-        android:label="@string/fui_title_welcome_back_password_prompt"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.WelcomeBackEmailLinkPrompt"
-        android:exported="false"
-        android:label="@string/fui_title_welcome_back_password_prompt"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.EmailLinkCatcherActivity"
-        android:exported="false"
-        android:label=""
-        android:theme="@style/FirebaseUI.Transparent"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.email.EmailLinkErrorRecoveryActivity"
-        android:exported="false"
-        android:label="@string/fui_sign_in_default"
-        android:windowSoftInputMode="adjustResize" />
-    <activity
-        android:name="com.firebase.ui.auth.ui.idp.AuthMethodPickerActivity"
-        android:exported="false"
-        android:label="@string/fui_default_toolbar_title" />
-    <activity
-        android:name="com.facebook.FacebookActivity"
-        android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:label="@string/app_name" />
-    <activity
-        android:name="com.facebook.CustomTabActivity"
-        android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
+        <provider
+            android:name="com.firebase.ui.auth.data.client.AuthUiInitProvider"
+            android:authorities="com.example.studybuddy.authuiinitprovider"
+            android:exported="false"
+            android:initOrder="90" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
 
-            <data android:scheme="@string/facebook_login_protocol_scheme" />
-        </intent-filter>
-    </activity>
+        <activity
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-    <provider
-        android:name="com.firebase.ui.auth.data.client.AuthUiInitProvider"
-        android:authorities="com.example.studybuddy.authuiinitprovider"
-        android:exported="false"
-        android:initOrder="90" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-    <service
-        android:name="com.google.firebase.components.ComponentDiscoveryService"
-        android:directBootAware="true"
-        android:exported="false" >
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
-    </service>
+                <data
+                    android:host="firebase.auth"
+                    android:path="/"
+                    android:scheme="genericidp" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-    <activity
-        android:name="com.google.firebase.auth.internal.GenericIdpActivity"
-        android:excludeFromRecents="true"
-        android:exported="true"
-        android:launchMode="singleTask"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-
-            <data
-                android:host="firebase.auth"
-                android:path="/"
-                android:scheme="genericidp" />
-        </intent-filter>
-    </activity>
-    <activity
-        android:name="com.google.firebase.auth.internal.RecaptchaActivity"
-        android:excludeFromRecents="true"
-        android:exported="true"
-        android:launchMode="singleTask"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-
-            <data
-                android:host="firebase.auth"
-                android:path="/"
-                android:scheme="recaptcha" />
-        </intent-filter>
-    </activity>
-    <activity
-        android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-        android:excludeFromRecents="true"
-        android:exported="false"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-    <!--
+                <data
+                    android:host="firebase.auth"
+                    android:path="/"
+                    android:scheme="recaptcha" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--
         Service handling Google Sign-In user revocation. For apps that do not integrate with
         Google Sign-In, this service will never be started.
-    -->
-    <service
-        android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-        android:exported="true"
-        android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
-        android:visibleToInstantApps="true" />
+        -->
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:visibleToInstantApps="true" />
 
-    <activity
-        android:name="com.google.android.gms.common.api.GoogleApiActivity"
-        android:exported="false"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-    <provider
-        android:name="com.google.firebase.provider.FirebaseInitProvider"
-        android:authorities="com.example.studybuddy.firebaseinitprovider"
-        android:directBootAware="true"
-        android:exported="false"
-        android:initOrder="100" />
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.example.studybuddy.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
 
-    <receiver
-        android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-        android:enabled="true"
-        android:exported="false" >
-    </receiver>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false" />
 
-    <service
-        android:name="com.google.android.gms.measurement.AppMeasurementService"
-        android:enabled="true"
-        android:exported="false" />
-    <service
-        android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-        android:enabled="true"
-        android:exported="false"
-        android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
-    <provider
-        android:name="androidx.startup.InitializationProvider"
-        android:authorities="com.example.studybuddy.androidx-startup"
-        android:exported="false" >
-        <meta-data
-            android:name="androidx.emoji2.text.EmojiCompatInitializer"
-            android:value="androidx.startup" />
-        <meta-data
-            android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-            android:value="androidx.startup" />
-    </provider>
-</application>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.example.studybuddy.androidx-startup"
+            android:exported="false">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+        </provider>
+    </application>
 
 </manifest>
