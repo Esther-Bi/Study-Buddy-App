@@ -7,13 +7,13 @@
         android:title="Edit profile"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_book_a_class"
+        android:orderInCategory="101"
+        android:title="Book a class" />
+    <item
         android:id="@+id/action_payments"
         android:orderInCategory="102"
         android:title="Payments" />
-    <item
-        android:id="@+id/action_my_courses"
-        android:orderInCategory="102"
-        android:title="My Courses" />
     <item
         android:id="@+id/action_log_out"
         android:orderInCategory="102"

@@ -32,14 +32,14 @@ public class StudentHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_student_home);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
+        inflater.inflate(R.menu.menu_student_home, menu);
         return true;
     }
 
@@ -51,14 +51,11 @@ public class StudentHomeActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_book_a_class:
-                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(StudentHomeActivity.this, BookClass.class));
+                finish();
                 return true;
             case R.id.action_payments:
                 Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_my_courses:
-                startActivity(new Intent(StudentHomeActivity.this, MyCoursesActivity.class));
-                finish();
                 return true;
             case R.id.action_log_out:
                 FirebaseAuth.getInstance().signOut();
