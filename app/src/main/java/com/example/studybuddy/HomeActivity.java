@@ -74,7 +74,9 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_book_a_class:
-                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, BookClass.class));
+                finish();
+//                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_payments:
                 Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();

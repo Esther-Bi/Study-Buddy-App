@@ -1,0 +1,13 @@
+<resources>
+<!--    <string name="app_name">StudyBuddy</string>-->
+
+    <string-array name="courses_array">
+        <item>Math</item>
+        <item>English</item>
+        <item>Biology</item>
+        <item>History</item>
+        <item>Literature</item>
+        <item>Computer Science</item>
+
+    </string-array>
+</resources>
