@@ -3,18 +3,18 @@ package com.example.studybuddy;
 public class User {
 
     private String name;
-    private int age;
+    private String age;
     private String year;
     private String degree;
     private String gender;
     private String id;
 
-    public User(String name, String year, String degree, String id) {
+    public User(String name, String year, String degree, String gender, String age, String id) {
         this.name = name;
-        this.age = 22;
+        this.age = age;
         this.year = year;
         this.degree = degree;
-        this.gender = "female";
+        this.gender = gender;
         this.id = id;
     }
 
@@ -26,11 +26,11 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
