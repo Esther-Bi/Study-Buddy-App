@@ -23,8 +23,7 @@ public class ChooseUserActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore database;
-    Button sign_as_student;
-    Button sign_as_teacher;
+    Button sign_as_student , sign_as_teacher , first_sign_as_student , first_sign_as_teacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,8 @@ public class ChooseUserActivity extends AppCompatActivity {
 
         sign_as_student = findViewById(R.id.sign_as_student);
         sign_as_teacher = findViewById(R.id.sign_as_teacher);
+        first_sign_as_student = findViewById(R.id.first_sign_as_student);
+        first_sign_as_teacher = findViewById(R.id.first_sign_as_teacher);
 
         sign_as_student.setOnClickListener(v -> {
             startActivity(new Intent(ChooseUserActivity.this, StudentHomeActivity.class));
@@ -40,6 +41,14 @@ public class ChooseUserActivity extends AppCompatActivity {
 
         sign_as_teacher.setOnClickListener(v -> {
             startActivity(new Intent(ChooseUserActivity.this, HomeActivity.class));
+        });
+
+        first_sign_as_student.setOnClickListener(v -> {
+            startActivity(new Intent(ChooseUserActivity.this, ProfileActivity.class));
+        });
+
+        first_sign_as_teacher.setOnClickListener(v -> {
+            startActivity(new Intent(ChooseUserActivity.this, ProfileActivity.class));
         });
 
     }

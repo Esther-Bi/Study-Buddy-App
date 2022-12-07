@@ -95,7 +95,8 @@ public class ProfileActivity extends AppCompatActivity {
                 auth = FirebaseAuth.getInstance();
                 FirebaseFirestore database;
                 database = FirebaseFirestore.getInstance();
-                updateProfile(textName, textDegree, textYear, auth, database);
+                updateProfile(textName, textYear, textDegree, auth, database);
+                startActivity(new Intent(this, HomeActivity.class));
             }
         });
     }

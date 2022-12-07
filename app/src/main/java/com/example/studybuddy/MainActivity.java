@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "checkUser: " + firebaseUser);
         if(firebaseUser != null){
             Log.d(TAG, "checkUser: Already logged in");
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, ChooseUserActivity.class));
             finish();
         }
     }
@@ -172,22 +172,14 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onSuccess: Email: "+email);
                         Log.d(TAG, "onSuccess: UID: "+uid);
 
-                        //admin logged in
-                        if(email.equals("jiayhb@gmail.com")){
-                            Log.d(TAG, "onSuccess: Admin logged in...\n"+email);
-                            Toast.makeText(MainActivity.this, "Admin logged in...\n"+email, Toast.LENGTH_SHORT).show();
-                            //start profile activity
-                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                            finish();
-                        }
 
                         //check if user is new or existing
-                        else if(authResult.getAdditionalUserInfo().isNewUser()){
+                        if(authResult.getAdditionalUserInfo().isNewUser()){
                             //user is new- account created
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
                             Toast.makeText(MainActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
-                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                            startActivity(new Intent(MainActivity.this, ChooseUserActivity.class));
                             finish();
                         }
                         else {
@@ -195,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "onSuccess: Existing user...\n" + email);
                             Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
                             //start profile activity
-                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            startActivity(new Intent(MainActivity.this, ChooseUserActivity.class));
                             finish();
                         }
                     }

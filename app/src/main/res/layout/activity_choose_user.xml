@@ -8,34 +8,85 @@
 
     <Button
         android:id="@+id/sign_as_student"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_width="210dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="328dp"
         android:text="STUDENT"
-        app:layout_constraintBottom_toTopOf="@+id/sign_as_teacher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_type" />
 
     <Button
         android:id="@+id/sign_as_teacher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="64dp"
         android:text="TEACHER"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_as_student" />
+        app:layout_constraintTop_toBottomOf="@+id/first_student_text" />
 
     <TextView
         android:id="@+id/user_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:textSize="24dp"
+        android:layout_marginTop="60dp"
         android:text="choose your user type"
+        android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@id/sign_as_student"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/first_student_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="8dp"
+        android:text="first time as student?\nWELCOME! click here"
+        app:layout_constraintEnd_toStartOf="@+id/first_sign_as_student"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_as_student" />
+
+    <Button
+        android:id="@+id/first_sign_as_student"
+        android:layout_width="63dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="90dp"
+        android:text=">>"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_as_teacher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/first_student_text"
+        app:layout_constraintTop_toBottomOf="@+id/sign_as_student"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/first_teacher_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="8dp"
+        android:text="first time as teacher?\nWELCOME! click here"
+        app:layout_constraintEnd_toStartOf="@+id/first_sign_as_teacher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_as_teacher" />
+
+    <Button
+        android:id="@+id/first_sign_as_teacher"
+        android:layout_width="63dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="90dp"
+        android:text=">>"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/first_teacher_text"
+        app:layout_constraintTop_toBottomOf="@+id/sign_as_teacher"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
