@@ -3,8 +3,12 @@ package com.example.studybuddy;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,8 +46,6 @@ public class MyCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_courses);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         setUpRecyclerView();
 
@@ -110,5 +112,39 @@ public class MyCoursesActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_classes:
+                startActivity(new Intent(MyCoursesActivity.this, HomeActivity.class));
+                return true;
+            case R.id.action_edit_profile:
+                startActivity(new Intent(MyCoursesActivity.this, ProfileActivity.class));
+                finish();
+                return true;
+            case R.id.action_payments:
+                startActivity(new Intent(MyCoursesActivity.this, MyPaymentsActivity.class));
+                finish();
+                return true;
+            case R.id.action_my_courses:
+                startActivity(new Intent(MyCoursesActivity.this, MyCoursesActivity.class));
+                finish();
+                return true;
+            case R.id.action_log_out:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MyCoursesActivity.this, MainActivity.class));
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

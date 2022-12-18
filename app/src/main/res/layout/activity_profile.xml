@@ -158,14 +158,16 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/ic_baseline_playlist_add_24"/>
-            <EditText
+            <Button
+                android:id="@+id/add_courses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="update courses for teaching"
-                android:textColor="#000"
-                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:textSize="12dp"
                 android:paddingLeft="15dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@android:color/white"/>
 
         </LinearLayout>
 

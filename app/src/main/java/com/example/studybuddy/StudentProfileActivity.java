@@ -65,7 +65,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 
-public class ProfileActivity extends AppCompatActivity {
+public class StudentProfileActivity extends AppCompatActivity {
 
     EditText name, degree, year, age;
     Button save, add_courses;
@@ -78,11 +78,11 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_student_profile);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userUID = user.getUid();
-        documentReference = db.collection("teachers").document(userUID);
+        documentReference = db.collection("students").document(userUID);
 
 
         name = findViewById(R.id.name);
@@ -91,13 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         year = findViewById(R.id.year);
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
-        add_courses = findViewById(R.id.add_courses);
 
-
-        //onclick listener for moving to adding courses for teacher
-        add_courses.setOnClickListener(v -> {
-            startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
-        });
 
         //onclick listener for updating profile button
         save.setOnClickListener(v -> {
@@ -111,10 +105,10 @@ public class ProfileActivity extends AppCompatActivity {
             String textYear = year.getText().toString();
 
             if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge)) {
-                Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudentProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else {
                 updateProfile(textName, textYear, textDegree, textGender, textAge, user, db);
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, StudentHomeActivity.class));
             }
         });
     }
@@ -137,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
                             year.setText(yearResult);
                             degree.setText(degreeResult);
                         }else{
-                            Toast.makeText(ProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StudentProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -149,17 +143,17 @@ public class ProfileActivity extends AppCompatActivity {
         String userUID = user.getUid();
 
         User userToAdd = new User(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
-        database.collection("teachers").document(userUID).set(userToAdd); //adding user data to database
+        database.collection("students").document(userUID).set(userToAdd); //adding user data to database
 
-        Toast.makeText(ProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+        Toast.makeText(StudentProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));
         finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_home, menu);
+        inflater.inflate(R.menu.menu_student_home, menu);
         return true;
     }
 
@@ -167,23 +161,23 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_classes:
-                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                startActivity(new Intent(StudentProfileActivity.this, StudentHomeActivity.class));
                 return true;
             case R.id.action_edit_profile:
-                startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+                startActivity(new Intent(StudentProfileActivity.this, StudentProfileActivity.class));
                 finish();
                 return true;
             case R.id.action_payments:
-                startActivity(new Intent(ProfileActivity.this, MyPaymentsActivity.class));
+                startActivity(new Intent(StudentProfileActivity.this, MyPaymentsActivity.class));
                 finish();
                 return true;
-            case R.id.action_my_courses:
-                startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
+            case R.id.action_book_a_class:
+                startActivity(new Intent(StudentProfileActivity.this, BookClass.class));
                 finish();
                 return true;
             case R.id.action_log_out:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -46,7 +46,7 @@ public class StudentHomeActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore database;
-    private ClassAdapter adapter;
+    private StudentClassAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class StudentHomeActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
 
         assert user != null;
-        String userUID = user.getUid();
 
     }
 
@@ -77,7 +76,7 @@ public class StudentHomeActivity extends AppCompatActivity {
                 .setQuery(query, Class.class)
                 .build();
 
-        adapter = new ClassAdapter(options);
+        adapter = new StudentClassAdapter(options);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_student);
         recyclerView.setHasFixedSize(true);
@@ -107,7 +106,7 @@ public class StudentHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit_profile:
-                startActivity(new Intent(StudentHomeActivity.this, ProfileActivity.class));
+                startActivity(new Intent(StudentHomeActivity.this, StudentProfileActivity.class));
                 finish();
                 return true;
             case R.id.action_book_a_class:

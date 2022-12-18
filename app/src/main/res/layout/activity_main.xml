@@ -12,7 +12,7 @@
         android:layout_width="177dp"
         android:layout_height="162dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_baseline_email_24" />
+        android:src="@drawable/fui_ic_googleg_color_24dp" />
 
     <TextView
         android:id="@+id/captionTv"

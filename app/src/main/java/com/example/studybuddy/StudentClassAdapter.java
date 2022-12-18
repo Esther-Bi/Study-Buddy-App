@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class ClassAdapter extends FirestoreRecyclerAdapter<Class, ClassAdapter.ClassHolder> {
+public class StudentClassAdapter extends FirestoreRecyclerAdapter<Class, StudentClassAdapter.ClassHolder> {
 
-    public ClassAdapter(@NonNull FirestoreRecyclerOptions<Class> options) {
+    public StudentClassAdapter(@NonNull FirestoreRecyclerOptions<Class> options) {
         super(options);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ClassHolder holder, int position, @NonNull Class model) {
-        holder.studentName.setText(model.getStudentName());
-//        holder.teacherName.setText(model.getTeacherName());
+//        holder.studentName.setText(model.getStudentName());
+        holder.teacherName.setText(model.getTeacherName());
         holder.subject.setText(model.getSubject());
 
         holder.date.setText(model.getDate());
@@ -37,14 +37,14 @@ public class ClassAdapter extends FirestoreRecyclerAdapter<Class, ClassAdapter.C
     }
 
     class ClassHolder extends RecyclerView.ViewHolder {
-        TextView studentName;
-//        TextView teacherName;
+        //        TextView studentName;
+        TextView teacherName;
         TextView subject;
         TextView date;
 
         public ClassHolder(View itemView) {
             super(itemView);
-            studentName = itemView.findViewById(R.id.teacherName);
+            teacherName = itemView.findViewById(R.id.teacherName);
             subject  = itemView.findViewById(R.id.subject);
             date = itemView.findViewById(R.id.date);
         }

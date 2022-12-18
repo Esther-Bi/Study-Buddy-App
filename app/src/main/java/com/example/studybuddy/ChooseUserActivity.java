@@ -44,7 +44,7 @@ public class ChooseUserActivity extends AppCompatActivity {
         });
 
         first_sign_as_student.setOnClickListener(v -> {
-            startActivity(new Intent(ChooseUserActivity.this, ProfileActivity.class));
+            startActivity(new Intent(ChooseUserActivity.this, StudentProfileActivity.class));
         });
 
         first_sign_as_teacher.setOnClickListener(v -> {

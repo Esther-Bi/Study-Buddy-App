@@ -1,47 +1,99 @@
 package com.example.studybuddy;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity {
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private CollectionReference classesRef = db.collection("classes");
+
+
+    private FirebaseAuth auth;
+    private FirebaseFirestore database;
+    private ClassAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // add document
-//        Map<String, Object> teacher = new HashMap<>();
-//        Map<String, Object> courses = new HashMap<>();
-//        courses.put("tichnut" , 100);
-//        teacher.put("name", "Noa");
-//        teacher.put("year", "3");
-//        teacher.put("courses", courses);
-//
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("teachers").document("noa")
-//                .set(teacher)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully written!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error writing document", e);
-//                    }
-//                });
+        setUpRecyclerView();
+
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseFirestore.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        assert user != null;
+
+    }
+
+    private void setUpRecyclerView() {
+
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        assert user != null;
+        String userUID = user.getUid();
+
+        Query query = classesRef.whereEqualTo("teacher", userUID);
+        FirestoreRecyclerOptions<Class> options = new FirestoreRecyclerOptions.Builder<Class>()
+                .setQuery(query, Class.class)
+                .build();
+
+        adapter = new ClassAdapter(options);
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_teacher);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override
