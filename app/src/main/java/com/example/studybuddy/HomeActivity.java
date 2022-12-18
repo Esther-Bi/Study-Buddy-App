@@ -1,30 +1,15 @@
 package com.example.studybuddy;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -74,7 +59,8 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_payments:
-                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, MyPaymentsActivity.class));
+                finish();
                 return true;
             case R.id.action_my_courses:
                 startActivity(new Intent(HomeActivity.this, MyCoursesActivity.class));

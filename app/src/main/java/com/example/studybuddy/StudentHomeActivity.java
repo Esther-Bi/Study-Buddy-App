@@ -115,7 +115,8 @@ public class StudentHomeActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_payments:
-                Toast.makeText(this, "Payments selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(StudentHomeActivity.this, MyPaymentsActivity.class));
+                finish();
                 return true;
             case R.id.action_log_out:
                 FirebaseAuth.getInstance().signOut();
