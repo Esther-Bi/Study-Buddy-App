@@ -3,32 +3,24 @@ package com.example.studybuddy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 //import android.support.annotation.NonNull;
-import androidx.annotation.Nullable;
 //import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
-import java.util.EventListener;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import android.os.Bundle;
 
 public class MyPaymentsActivity extends AppCompatActivity {
 
@@ -43,6 +35,7 @@ public class MyPaymentsActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference studentsRef = db.collection("Students");
+    private CollectionReference classesRef = db.collection("classes");
     private DocumentReference noteRef = db.document("Students/student1");
 
     @Override
@@ -75,21 +68,23 @@ public class MyPaymentsActivity extends AppCompatActivity {
 
         studentsRef.add(student);
     }
-//    public void updateDegree(View v) {
-//        String description = editTextDegree.getText().toString();
-//
-//        //Map<String, Object> note = new HashMap<>();
-//        //note.put(KEY_DESCRIPTION, description);
-//
-//        //noteRef.set(note, SetOptions.merge());
-//        noteRef.update(KEY_DEGREE, description);
-//    }
-//    public void deleteDegree(View v) {
-//        noteRef.update(KEY_DEGREE, FieldValue.delete());
-//    }
-//    public void deleteStudent(View v) {
-//        noteRef.delete();
-//    }
+
+    public void saveClass(View v) {
+        String studentName = "1";
+        String teacherName = "2";
+        String subject = "3";
+        String date = "4";
+
+        Class newclass = new Class(studentName, teacherName, subject, date);
+
+        classesRef.add(newclass);
+    }
+    public void moveToFilterTeacher(View v) {
+
+        startActivity(new Intent(MyPaymentsActivity.this, TeachersListActivity.class));
+        finish();
+    }
+
     public void loadStudents(View v) {
         studentsRef.whereArrayContains("courses", "nath")
                // .orderBy("coursenum")

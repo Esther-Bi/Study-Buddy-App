@@ -9,13 +9,6 @@
     android:padding="16dp"
     tools:context=".MyPaymentsActivity">
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".MyPaymentsActivity">-->
-
     <EditText
         android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
@@ -62,24 +55,11 @@
         android:layout_height="wrap_content"
         android:onClick="loadStudents"
         android:text="Load" />
-
-<!--    <Button-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="updateDegree"-->
-<!--        android:text="Update degree" />-->
-
-<!--    <Button-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="deleteDegree"-->
-<!--        android:text="Delete degree" />-->
-
-<!--    <Button-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="deleteStudent"-->
-<!--        android:text="Delete stuudent" />-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="moveToFilterTeacher"
+        android:text="Class" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -89,6 +69,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp" />
+<!--    <Button-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="saveClass"-->
+<!--        android:text="Class" />-->
     </androidx.core.widget.NestedScrollView>
 
     <TextView
@@ -100,4 +85,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </LinearLayout>
