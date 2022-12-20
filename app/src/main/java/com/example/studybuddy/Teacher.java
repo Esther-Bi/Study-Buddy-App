@@ -12,14 +12,16 @@ public class Teacher implements Parcelable {
     private String Id;
     private String name;
     List<String> courses;
+    List<String> dates;
 
     public Teacher() {
         //public no-arg constructor needed
     }
-    public Teacher(String Id, String name , List<String> courses) {
+    public Teacher(String Id, String name , List<String> courses , List<String> dates) {
         this.Id = Id;
         this.name = name;
         this.courses = courses;
+        this.dates = dates;
     }
     public Teacher(String Id, String name) {
         this.name = name;
@@ -33,6 +35,8 @@ public class Teacher implements Parcelable {
 //        mImageResource = in.readInt();
         this.Id = in.readString();
         this.name = in.readString();
+        this.courses = in.createStringArrayList();
+        this.dates = in.createStringArrayList();
     }
 
     @Exclude
@@ -50,6 +54,10 @@ public class Teacher implements Parcelable {
 
     public List<String> getCourses() {
         return courses;
+    }
+
+    public List<String> getDates() {
+        return dates;
     }
 
     public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
@@ -70,8 +78,9 @@ public class Teacher implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeInt(mImageResource);
         dest.writeString(name);
         dest.writeString(Id);
+        dest.writeList(courses);
+        dest.writeList(dates);
     }
 }

@@ -47,7 +47,6 @@ public class TeachersListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s)
             {
-//                currentSearchText = s;
                 ArrayList<Teacher> filteredShapes = new ArrayList<Teacher>();
 
                 for(Teacher teacher: teachersList)
@@ -71,6 +70,9 @@ public class TeachersListActivity extends AppCompatActivity {
         List<String> courses1 = new ArrayList<String>();
         List<String> courses2 = new ArrayList<String>();
         List<String> courses3 = new ArrayList<String>();
+        List<String> days1 = new ArrayList<String>();
+        List<String> days2 = new ArrayList<String>();
+        List<String> days3 = new ArrayList<String>();
         courses1.add("math");
         courses1.add("English");
         courses2.add("English");
@@ -79,11 +81,18 @@ public class TeachersListActivity extends AppCompatActivity {
         courses3.add("math");
         courses3.add("history");
         courses3.add("sciences");
-        Teacher t1 = new Teacher("111", "Talya", courses1);
+        days1.add("sunday");
+        days1.add("monday");
+        days2.add("starday");
+        days2.add("sunday");
+        days1.add("monday");
+        days1.add("starday");
+        days1.add("sunday");
+        Teacher t1 = new Teacher("111", "Talya", courses1, days1);
         teachersList.add(t1);
-        Teacher t2 = new Teacher("222", "Ester", courses2);
+        Teacher t2 = new Teacher("222", "Ester", courses2, days2);
         teachersList.add(t2);
-        Teacher t3 = new Teacher("333", "Noa", courses3);
+        Teacher t3 = new Teacher("333", "Noa", courses3, days3);
         teachersList.add(t3);
 
     }
@@ -101,11 +110,11 @@ public class TeachersListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
             {
-                Teacher selectShape = (Teacher) (listView.getItemAtPosition(position));
-                Intent showDetail = new Intent(getApplicationContext(), DetailActivityTeacher.class);
+                Teacher selectTeacher = (Teacher) (listView.getItemAtPosition(position));
+                Intent intent = new Intent(getApplicationContext(), DetailActivityTeacher.class);
 
-                showDetail.putExtra("id",selectShape.getId());
-                startActivity(showDetail);
+                intent.putExtra("id",selectTeacher.getId());
+                startActivity(intent);
 
             }
         });

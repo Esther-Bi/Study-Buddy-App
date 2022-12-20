@@ -11,21 +11,14 @@
     android:background="@color/colorAccent">
 
     <TextView
+        android:id="@+id/teacherName"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:id="@+id/teacherName"
+        android:layout_marginLeft="20dp"
         android:gravity="center_vertical"
         android:text="shape name"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"/>
+        android:textSize="20dp" />
 
-    <ImageView
-        android:id="@+id/shapeImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp" />
 
 </RelativeLayout>
