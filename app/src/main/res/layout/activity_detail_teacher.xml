@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DetailActivityTeacher"
+
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
     <TextView
-        android:id="@+id/teacherName"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_marginLeft="20dp"
+        android:id="@+id/teacherName"
         android:gravity="center_vertical"
-        android:text="teacher name"
-        android:textSize="20dp" />
+        android:text="shape name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"/>
 
+    <ImageView
+        android:id="@+id/shapeImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp" />
 
 </RelativeLayout>

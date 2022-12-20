@@ -10,7 +10,7 @@
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/shapeListSearchView"
+        android:id="@+id/teacherListSearchView"
         android:iconifiedByDefault="false"
         android:queryHint="Shape Name"></SearchView>
 

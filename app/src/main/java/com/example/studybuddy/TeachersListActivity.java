@@ -1,40 +1,23 @@
 package com.example.studybuddy;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.SearchView;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TeachersListActivity extends AppCompatActivity {
 
 
-    static ArrayList<Teacher> TeachersList = new ArrayList<Teacher>();
+    public static ArrayList<Teacher> teachersList = new ArrayList<Teacher>();
+
     ListView listView; // list view of teachers
 //    private String selectedFilter = "all";
 //    private String currentSearchText = "";
@@ -53,7 +36,7 @@ public class TeachersListActivity extends AppCompatActivity {
 
     private void initSearchWidgets()
     {
-        SearchView searchView = (SearchView) findViewById(R.id.shapeListSearchView);
+        SearchView searchView = (SearchView) findViewById(R.id.teacherListSearchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -67,11 +50,13 @@ public class TeachersListActivity extends AppCompatActivity {
 //                currentSearchText = s;
                 ArrayList<Teacher> filteredShapes = new ArrayList<Teacher>();
 
-                for(Teacher teacher: TeachersList)
+                for(Teacher teacher: teachersList)
                 {
-                    if(teacher.getName().toLowerCase().contains(s.toLowerCase()))
-                    {
-                        filteredShapes.add(teacher);
+                    for(int i=0; i<teacher.getCourses().size(); i++) {
+                        String word= teacher.getCourses().get(i);
+                        if (word.toLowerCase().contains(s.toLowerCase())) {
+                            filteredShapes.add(teacher);
+                        }
                     }
                 }
                 TeacherAdapter adapter = new TeacherAdapter(getApplicationContext(), 0, filteredShapes);
@@ -83,29 +68,45 @@ public class TeachersListActivity extends AppCompatActivity {
     }
 
     private void setupData() {
-        Teacher t1 = new Teacher("111", "Talya");
-        TeachersList.add(t1);
-        Teacher t2 = new Teacher("222", "Ester");
-        TeachersList.add(t2);
-        Teacher t3 = new Teacher("333", "Noa");
-        TeachersList.add(t3);
+        List<String> courses1 = new ArrayList<String>();
+        List<String> courses2 = new ArrayList<String>();
+        List<String> courses3 = new ArrayList<String>();
+        courses1.add("math");
+        courses1.add("English");
+        courses2.add("English");
+        courses2.add("history");
+        courses2.add("sciences");
+        courses3.add("math");
+        courses3.add("history");
+        courses3.add("sciences");
+        Teacher t1 = new Teacher("111", "Talya", courses1);
+        teachersList.add(t1);
+        Teacher t2 = new Teacher("222", "Ester", courses2);
+        teachersList.add(t2);
+        Teacher t3 = new Teacher("333", "Noa", courses3);
+        teachersList.add(t3);
 
     }
 
     private void setUpList() {
         listView = (ListView) findViewById(R.id.teachersListView);
-        TeacherAdapter adapter = new TeacherAdapter(getApplicationContext(), 0, TeachersList);
+        TeacherAdapter adapter = new TeacherAdapter(getApplicationContext(), 0, teachersList);
         listView.setAdapter(adapter);
     }
 
-    private void setUpOnclickListener() {
+
+    private void setUpOnclickListener()
+    {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Teacher selectTeacher = (Teacher) (listView.getItemAtPosition(position));
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                Teacher selectShape = (Teacher) (listView.getItemAtPosition(position));
                 Intent showDetail = new Intent(getApplicationContext(), DetailActivityTeacher.class);
-                showDetail.putExtra("id", selectTeacher.getId());
+
+                showDetail.putExtra("id",selectShape.getId());
                 startActivity(showDetail);
+
             }
         });
 
