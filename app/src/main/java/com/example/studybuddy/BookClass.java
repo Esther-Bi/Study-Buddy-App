@@ -26,11 +26,11 @@ public class BookClass extends AppCompatActivity {
 
 
     public static ArrayList<Teacher> teachersList = new ArrayList<Teacher>();
-    private static final String TAG = "MyTeachersListActivity";
+    private static final String TAG = "MyBookClass";
 
     ListView listView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference teachersRef = db.collection("Teachers");
+    private CollectionReference teachersRef = db.collection("teachers");
 
 
     @Override

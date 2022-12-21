@@ -41,7 +41,7 @@ public class MyPaymentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_payments);
+        setContentView(R.layout.activity_my_payments);}
 
 //        editTextName = findViewById(R.id.edit_text_name);
 //        editTextAge = findViewById(R.id.edit_text_age);
@@ -67,7 +67,7 @@ public class MyPaymentsActivity extends AppCompatActivity {
 //        Student student = new Student(name, age, degree, coursenum, courses);
 //
 //        studentsRef.add(student);
-    }
+//    }
 
 //    public void saveClass(View v) {
 //        String studentName = "1";
