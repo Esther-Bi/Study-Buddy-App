@@ -3,6 +3,8 @@ package com.example.studybuddy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -10,13 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.SystemParameterOrBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -63,16 +68,28 @@ import com.example.studybuddy.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
     EditText name, degree, year, age;
-    Button save, add_courses;
+    Button save, add_courses, add_dates;
     RadioGroup gender_group;
     RadioButton gender;
     DocumentReference documentReference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button popup_cancel , popup_save , popup_time, popup_date;
+    private DatePickerDialog datePickerDialog;
+
+    int hour, minute;
+
+    private String userUID;
 
 
     @Override
@@ -81,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userUID = user.getUid();
+        userUID= user.getUid();
         documentReference = db.collection("teachers").document(userUID);
 
 
@@ -92,11 +109,17 @@ public class ProfileActivity extends AppCompatActivity {
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
         add_courses = findViewById(R.id.add_courses);
+        add_dates = findViewById(R.id.add_dates);
 
 
         //onclick listener for moving to adding courses for teacher
         add_courses.setOnClickListener(v -> {
             startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
+        });
+
+        //onclick listener for adding available dates for teacher
+        add_dates.setOnClickListener(v -> {
+            createPopup();
         });
 
         //onclick listener for updating profile button
@@ -187,6 +210,138 @@ public class ProfileActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void createPopup(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View popupView = getLayoutInflater().inflate(R.layout.dates_popup , null);
+        popup_time = (Button) popupView.findViewById(R.id.popup_time);
+        popup_date = (Button) popupView.findViewById(R.id.popup_date);
+        popup_cancel = (Button) popupView.findViewById(R.id.popup_cancel);
+        popup_save = (Button) popupView.findViewById(R.id.popup_save);
+
+        dialogBuilder.setView(popupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        popup_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker();
+            }
+        });
+
+        popup_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initDatePicker();
+            }
+        });
+
+        popup_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        popup_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String time = popup_time.getText().toString();
+                String date = popup_date.getText().toString();
+                Map<String, String> updates = new HashMap<>();
+                updates.put("time", time);
+                updates.put("date", date);
+                updates.put("id", userUID);
+                db.collection("dates").add(updates);
+            }
+        });
+
+    }
+
+    // choose time
+    public void popTimePicker()
+    {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+            {
+                hour = selectedHour;
+                minute = selectedMinute;
+                popup_time.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
+            }
+        };
+
+         int style = AlertDialog.THEME_HOLO_DARK;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
+    }
+
+    // choose date
+    private void initDatePicker()
+    {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+            {
+                month = month + 1;
+                String date = makeDateString(day, month, year);
+                popup_date.setText(date);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int style = AlertDialog.THEME_HOLO_LIGHT;
+
+        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+        datePickerDialog.show();
+
+    }
+
+    private String makeDateString(int day, int month, int year)
+    {
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+
+    private String getMonthFormat(int month)
+    {
+        if(month == 1)
+            return "JAN";
+        if(month == 2)
+            return "FEB";
+        if(month == 3)
+            return "MAR";
+        if(month == 4)
+            return "APR";
+        if(month == 5)
+            return "MAY";
+        if(month == 6)
+            return "JUN";
+        if(month == 7)
+            return "JUL";
+        if(month == 8)
+            return "AUG";
+        if(month == 9)
+            return "SEP";
+        if(month == 10)
+            return "OCT";
+        if(month == 11)
+            return "NOV";
+        if(month == 12)
+            return "DEC";
+
+        //default should never happen
+        return "JAN";
     }
 
 }
