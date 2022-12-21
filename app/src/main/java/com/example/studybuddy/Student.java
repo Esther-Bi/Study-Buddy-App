@@ -1,58 +1,66 @@
 package com.example.studybuddy;
 
-import com.google.firebase.database.Exclude;
-
-import java.util.List;
-
 public class Student {
-    private String documentId;
+
     private String name;
     private String age;
+    private String year;
     private String degree;
-    private int coursenum;
-    List<String> courses;
+    private String gender;
+    private String id;
 
-    public Student() {
-        //public no-arg constructor needed
-    }
-    public Student(String name, String age , String degree , int coursenum , List<String> courses) {
+    public Student(String name, String year, String degree, String gender, String age, String id) {
         this.name = name;
         this.age = age;
+        this.year = year;
         this.degree = degree;
-        this.coursenum = coursenum;
-        this.courses = courses;
-    }
-
-    @Exclude
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+        this.gender = gender;
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getAge() {
         return age;
+    }
+
+    public void setAge(String age) { this.age = age; }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getDegree() {
         return degree;
     }
 
-    public int getCoursenum() {
-        return coursenum;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
-    public void setCoursenum(int coursenum) {
-        this.coursenum = coursenum;
+    public String getGender() {
+        return gender;
     }
 
-    public List<String> getCourses() {
-        return courses;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

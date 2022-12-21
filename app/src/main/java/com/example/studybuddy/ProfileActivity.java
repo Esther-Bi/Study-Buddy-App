@@ -21,11 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.api.SystemParameterOrBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,18 +52,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.studybuddy.User;
-import com.example.studybuddy.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -171,8 +156,8 @@ public class ProfileActivity extends AppCompatActivity {
         assert user != null;
         String userUID = user.getUid();
 
-        User userToAdd = new User(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
-        database.collection("teachers").document(userUID).set(userToAdd); //adding user data to database
+        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
+        database.collection("teachers").document(userUID).set(teacherToAdd); //adding user data to database
 
         Toast.makeText(ProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));

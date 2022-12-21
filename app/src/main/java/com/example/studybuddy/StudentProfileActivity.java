@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,8 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,24 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 //        save = findViewById(R.id.save);
 
 
-
-
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.studybuddy.User;
-import com.example.studybuddy.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.HashMap;
 
 public class StudentProfileActivity extends AppCompatActivity {
 
@@ -142,8 +122,8 @@ public class StudentProfileActivity extends AppCompatActivity {
         assert user != null;
         String userUID = user.getUid();
 
-        User userToAdd = new User(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
-        database.collection("students").document(userUID).set(userToAdd); //adding user data to database
+        Student studentToAdd = new Student(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
+        database.collection("students").document(userUID).set(studentToAdd); //adding user data to database
 
         Toast.makeText(StudentProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));

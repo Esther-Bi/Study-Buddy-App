@@ -48,13 +48,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.TeachersListActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name="com.example.studybuddy.MyPaymentsActivity"
             android:exported="false">
             <meta-data

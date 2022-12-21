@@ -9,45 +9,54 @@ import java.util.List;
 
 public class Teacher implements Parcelable {
 
-    private String Id;
+    private String id;
     private String name;
     List<String> courses;
+    List<Integer> grades;
+    private String age;
+    private String year;
+    private String degree;
+    private String gender;
 
     public Teacher() {
         //public no-arg constructor needed
     }
     public Teacher(String Id, String name , List<String> courses ) {
-        this.Id = Id;
+        this.id = Id;
         this.name = name;
         this.courses = courses;
     }
-    public Teacher(String Id, String name) {
+    public Teacher(String name, String year, String degree, String gender, String age, String id) {
         this.name = name;
-        this.Id = Id;
+        this.age = age;
+        this.year = year;
+        this.degree = degree;
+        this.gender = gender;
+        this.id = id;
     }
+
     public void setDocumentId(String documentId) {
 
-        this.Id = documentId;
+        this.id = documentId;
     }
 
     public Teacher(String name) {
         this.name = name;
-        this.Id = "12345";
+        this.id = "12345";
     }
     protected Teacher(Parcel in) {
-//        mImageResource = in.readInt();
-        this.Id = in.readString();
+        this.id = in.readString();
         this.name = in.readString();
         this.courses = in.createStringArrayList();
     }
 
     @Exclude
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String Id) {
-        this.Id = Id;
+        this.id = Id;
     }
 
     public String getName() {
@@ -58,6 +67,39 @@ public class Teacher implements Parcelable {
         return courses;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) { this.age = age; }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
         @Override
@@ -78,7 +120,7 @@ public class Teacher implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(Id);
+        dest.writeString(id);
         dest.writeList(courses);
     }
 }
