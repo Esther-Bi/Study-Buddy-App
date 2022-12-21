@@ -22,7 +22,7 @@
         android:id="@+id/popup_date"
         android:layout_width="148dp"
         android:layout_height="48dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
         android:text="choose date"
         app:layout_constraintBottom_toTopOf="@+id/popup_save"
         app:layout_constraintEnd_toEndOf="parent"

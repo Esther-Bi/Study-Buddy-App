@@ -22,13 +22,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MyCoursesActivity extends AppCompatActivity {
 
@@ -60,9 +67,6 @@ public class MyCoursesActivity extends AppCompatActivity {
         course = findViewById(R.id.course_to_add);
         grade = findViewById(R.id.grade_to_add);
 
-        HashMap<String,String> courses = new HashMap<>();
-        database.collection("courses").document(userUID).set(courses);
-
         //onclick listener for register button
         add.setOnClickListener(v -> {
             //Converting fields to text
@@ -72,9 +76,29 @@ public class MyCoursesActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(textCourse) || TextUtils.isEmpty(textGrade)) {
                 Toast.makeText(MyCoursesActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else {
-                HashMap<String,String> my_courses = new HashMap<>();
-                my_courses.put(textCourse,textGrade);
-                database.collection("courses").document(userUID).update(textCourse, textGrade);
+//                ArrayList<String> courses_list = new ArrayList<String>();
+//                ArrayList<Integer> grades_list = new ArrayList<Integer>();
+
+                // Retrieve the existing array from Firestore
+//                database.collection("teachers")
+//                        .document(userUID)
+//                        .get()
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                                courses_list = (ArrayList<String>) documentSnapshot.get("courses");
+//                                grades_list = (ArrayList<Integer>) documentSnapshot.get("grades");
+//                            }
+//                        });
+//
+//                // Add a new value to the array
+                database.collection("teachers")
+                        .document(userUID)
+                        .update("courses", FieldValue.arrayUnion(textCourse));
+
+                database.collection("teachers")
+                        .document(userUID)
+                        .update("grades", FieldValue.arrayUnion(Integer.parseInt(textGrade)));
             }
         });
 

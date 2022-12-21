@@ -79,11 +79,11 @@ public class MyPaymentsActivity extends AppCompatActivity {
 //
 //        classesRef.add(newclass);
 //    }
-    public void moveToFilterTeacher(View v) {
-
-        startActivity(new Intent(MyPaymentsActivity.this, TeachersListActivity.class));
-        finish();
-    }
+//    public void moveToFilterTeacher(View v) {
+//
+//        startActivity(new Intent(MyPaymentsActivity.this, TeachersListActivity.class));
+//        finish();
+//    }
 
 //    public void loadStudents(View v) {
 //        studentsRef.whereArrayContains("courses", "nath")

@@ -5,14 +5,15 @@ import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher implements Parcelable {
 
     private String id;
     private String name;
-    List<String> courses;
-    List<Integer> grades;
+    List<String> courses = new ArrayList<String>();
+    List<Integer> grades = new ArrayList<Integer>();
     private String age;
     private String year;
     private String degree;
@@ -99,6 +100,14 @@ public class Teacher implements Parcelable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public List<Integer> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<Integer> grades) {
+        this.grades = grades;
     }
 
     public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
