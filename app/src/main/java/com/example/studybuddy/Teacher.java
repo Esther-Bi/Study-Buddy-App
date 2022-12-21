@@ -13,11 +13,13 @@ public class Teacher implements Parcelable {
     private String id;
     private String name;
     List<String> courses = new ArrayList<String>();
+    List<String> dates = new ArrayList<String>();
     List<Integer> grades = new ArrayList<Integer>();
     private String age;
     private String year;
     private String degree;
     private String gender;
+
 
     public Teacher() {
         //public no-arg constructor needed
@@ -37,7 +39,6 @@ public class Teacher implements Parcelable {
     }
 
     public void setDocumentId(String documentId) {
-
         this.id = documentId;
     }
 
@@ -48,7 +49,8 @@ public class Teacher implements Parcelable {
     protected Teacher(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
-        this.courses = in.createStringArrayList();
+        this.courses = in.readArrayList(null);
+        this.dates = in.readArrayList(null);
     }
 
     @Exclude
@@ -74,6 +76,14 @@ public class Teacher implements Parcelable {
 
     public String getAge() {
         return age;
+    }
+
+    public List<String> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<String> dates) {
+        this.dates = dates;
     }
 
     public void setAge(String age) { this.age = age; }
@@ -128,8 +138,10 @@ public class Teacher implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
         dest.writeString(id);
+        dest.writeString(name);
         dest.writeList(courses);
+        dest.writeList(dates);
+
     }
 }

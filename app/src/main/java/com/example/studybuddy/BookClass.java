@@ -113,7 +113,7 @@ public class BookClass extends AppCompatActivity {
                 Teacher selectTeacher = (Teacher) (listView.getItemAtPosition(position));
                 Intent intent = new Intent(getApplicationContext(), DetailActivityTeacher.class);
 
-                intent.putExtra("id",selectTeacher.getId());
+                intent.putExtra("id",selectTeacher);
                 startActivity(intent);
             }
         });
