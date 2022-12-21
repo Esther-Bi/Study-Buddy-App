@@ -1,14 +1,23 @@
 package com.example.studybuddy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +26,12 @@ public class TeachersListActivity extends AppCompatActivity {
 
 
     public static ArrayList<Teacher> teachersList = new ArrayList<Teacher>();
+    private static final String TAG = "MyTeachersListActivity";
 
-    ListView listView; // list view of teachers
-//    private String selectedFilter = "all";
-//    private String currentSearchText = "";
-//    private SearchView searchView;
+    ListView listView;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference teachersRef = db.collection("Teachers");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,34 +77,24 @@ public class TeachersListActivity extends AppCompatActivity {
     }
 
     private void setupData() {
-        List<String> courses1 = new ArrayList<String>();
-        List<String> courses2 = new ArrayList<String>();
-        List<String> courses3 = new ArrayList<String>();
-        List<String> days1 = new ArrayList<String>();
-        List<String> days2 = new ArrayList<String>();
-        List<String> days3 = new ArrayList<String>();
-        courses1.add("math");
-        courses1.add("English");
-        courses2.add("English");
-        courses2.add("history");
-        courses2.add("sciences");
-        courses3.add("math");
-        courses3.add("history");
-        courses3.add("sciences");
-        days1.add("sunday");
-        days1.add("monday");
-        days2.add("starday");
-        days2.add("sunday");
-        days1.add("monday");
-        days1.add("starday");
-        days1.add("sunday");
-        Teacher t1 = new Teacher("111", "Talya", courses1, days1);
-        teachersList.add(t1);
-        Teacher t2 = new Teacher("222", "Ester", courses2, days2);
-        teachersList.add(t2);
-        Teacher t3 = new Teacher("333", "Noa", courses3, days3);
-        teachersList.add(t3);
+        teachersRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    Teacher teacher = documentSnapshot.toObject(Teacher.class);
+                    teacher.setDocumentId(documentSnapshot.getId());
+
+                    teachersList.add(teacher);
+                }
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.toString());
+            }
+        });
     }
 
     private void setUpList() {
@@ -115,9 +115,7 @@ public class TeachersListActivity extends AppCompatActivity {
 
                 intent.putExtra("id",selectTeacher.getId());
                 startActivity(intent);
-
             }
         });
-
     }
 }
