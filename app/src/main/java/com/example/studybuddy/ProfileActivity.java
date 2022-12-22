@@ -275,11 +275,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String time = popup_time.getText().toString();
                 String date = popup_date.getText().toString();
-                String date_and_time = date + " - " + time;
-                db.collection("teachers")
-                        .document(userUID)
-                        .update("dates", FieldValue.arrayUnion(date_and_time));
-                dialog.dismiss();
+                if (time.equals("choose time") || date.equals("choose date")) {
+                    Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String date_and_time = date + " - " + time;
+                    db.collection("teachers")
+                            .document(userUID)
+                            .update("dates", FieldValue.arrayUnion(date_and_time));
+                    Toast.makeText(ProfileActivity.this, date_and_time + " have been added successfully", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -405,8 +410,8 @@ public class ProfileActivity extends AppCompatActivity {
                             .update("grades", FieldValue.arrayUnion(Integer.parseInt(grade)));
 
                     Toast.makeText(ProfileActivity.this, course_and_grade + " have been added successfully", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 
