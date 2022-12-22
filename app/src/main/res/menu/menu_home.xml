@@ -19,11 +19,15 @@
         android:orderInCategory="102"
         android:title="My Courses" />
     <item
-        android:id="@+id/action_log_out"
+        android:id="@+id/action_my_available_dates"
         android:orderInCategory="103"
+        android:title="My Available Dates" />
+    <item
+        android:id="@+id/action_log_out"
+        android:orderInCategory="104"
         android:title="log out" />
     <item
         android:id="@+id/action_change_user_type"
-        android:orderInCategory="104"
+        android:orderInCategory="105"
         android:title="Change User Type" />
 </menu>

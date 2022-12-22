@@ -110,6 +110,8 @@ public class MyCoursesActivity extends AppCompatActivity {
                 database.collection("teachers")
                         .document(userUID)
                         .update("grades", FieldValue.arrayUnion(Integer.parseInt(textGrade)));
+
+                Toast.makeText(MyCoursesActivity.this, "Course Have Been Added", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -173,6 +175,10 @@ public class MyCoursesActivity extends AppCompatActivity {
                 return true;
             case R.id.action_my_courses:
                 startActivity(new Intent(MyCoursesActivity.this, MyCoursesActivity.class));
+                finish();
+                return true;
+            case R.id.action_my_available_dates:
+                startActivity(new Intent(MyCoursesActivity.this, MyAvailableDatesActivity.class));
                 finish();
                 return true;
             case R.id.action_log_out:

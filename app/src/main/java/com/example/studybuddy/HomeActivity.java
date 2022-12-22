@@ -125,6 +125,10 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, MyCoursesActivity.class));
                 finish();
                 return true;
+            case R.id.action_my_available_dates:
+                startActivity(new Intent(HomeActivity.this, MyAvailableDatesActivity.class));
+                finish();
+                return true;
             case R.id.action_log_out:
                 googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
