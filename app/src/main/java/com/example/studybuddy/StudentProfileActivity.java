@@ -14,6 +14,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,11 +58,15 @@ public class StudentProfileActivity extends AppCompatActivity {
     DocumentReference documentReference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    GoogleSignInClient googleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_profile);
+
+        googleSignInClient= GoogleSignIn.getClient(StudentProfileActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userUID = user.getUid();
@@ -156,8 +164,23 @@ public class StudentProfileActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_log_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            // When task is successful, sign out from firebase
+                            FirebaseAuth.getInstance().signOut();
+                            // Display Toast
+                            Toast.makeText(getApplicationContext(), "Logout successfully, See you soon (:", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                });
+            case R.id.action_change_user_type:
+                startActivity(new Intent(StudentProfileActivity.this, ChooseUserActivity.class));
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

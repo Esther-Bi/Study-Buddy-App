@@ -100,7 +100,12 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
                             String name = (String) document.get("name");
                             Class newClass = new Class(name, currentTeacher.getName(), courseValueFromSpinner, dateValueFromSpinner, studentID, teacherID);
                             db.collection("classes").add(newClass);
+                            db.collection("teachers")
+                                    .document(teacherID)
+                                    .update("dates", FieldValue.arrayRemove(dateValueFromSpinner));
+                            startActivity(new Intent(DetailActivityTeacher.this, BookClass.class));
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            finish();
                         } else {
                             Log.d(TAG, "No such document");
                         }

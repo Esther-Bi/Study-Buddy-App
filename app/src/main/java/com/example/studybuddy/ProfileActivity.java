@@ -19,12 +19,16 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 //
 //public class ProfileActivity extends AppCompatActivity {
@@ -72,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Button popup_cancel , popup_save , popup_time, popup_date;
     private DatePickerDialog datePickerDialog;
 
+    GoogleSignInClient googleSignInClient;
+
     int hour, minute;
 
     private String userUID;
@@ -81,6 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        googleSignInClient= GoogleSignIn.getClient(ProfileActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userUID= user.getUid();
@@ -156,9 +164,13 @@ public class ProfileActivity extends AppCompatActivity {
         assert user != null;
         String userUID = user.getUid();
 
-        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
-        database.collection("teachers").document(userUID).set(teacherToAdd); //adding user data to database
+//        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
+//        database.collection("teachers").document(userUID).set(teacherToAdd); //adding user data to database
 
+        database.collection("teachers").document(userUID).update("name" , textName,
+                                                                "year" , textYear,
+                                                                                 "degree" , textDegree,
+                                                                                 "age" , textAge);
         Toast.makeText(ProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
         finish();
@@ -190,8 +202,23 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_log_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            // When task is successful, sign out from firebase
+                            FirebaseAuth.getInstance().signOut();
+                            // Display Toast
+                            Toast.makeText(getApplicationContext(), "Logout successfully, See you soon (:", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                });
+            case R.id.action_change_user_type:
+                startActivity(new Intent(ProfileActivity.this, ChooseUserActivity.class));
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -235,11 +262,10 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String time = popup_time.getText().toString();
                 String date = popup_date.getText().toString();
-                Map<String, String> updates = new HashMap<>();
-                updates.put("time", time);
-                updates.put("date", date);
-                updates.put("id", userUID);
-                db.collection("dates").add(updates);
+                String date_and_time = date + " - " + time;
+                db.collection("teachers")
+                        .document(userUID)
+                        .update("dates", FieldValue.arrayUnion(date_and_time));
             }
         });
 

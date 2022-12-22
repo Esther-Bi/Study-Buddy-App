@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         if(authResult.getAdditionalUserInfo().isNewUser()){
                             //user is new- account created
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
-                            Toast.makeText(MainActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Welcome To Study Buddy! \n"+email, Toast.LENGTH_SHORT).show();
                             //start profile activity
                             startActivity(new Intent(MainActivity.this, ChooseUserActivity.class));
                             finish();
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             //existing account
                             Log.d(TAG, "onSuccess: Existing user...\n" + email);
-                            Toast.makeText(MainActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Welcome Back! \n" + email, Toast.LENGTH_SHORT).show();
                             //start profile activity
                             startActivity(new Intent(MainActivity.this, ChooseUserActivity.class));
                             finish();

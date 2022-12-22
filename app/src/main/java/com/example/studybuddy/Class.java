@@ -10,16 +10,20 @@ public class Class {
     private String teacherName;
     private String subject;
     private String date;
+    private String student;
+    private String teacher;
 
     public Class() {
         //empty constructor needed
     }
 
-    public Class(String studentName, String teacherName, String subject, String date) {
+    public Class(String studentName, String teacherName, String subject, String date, String student, String teacher) {
         this.studentName = studentName;
         this.teacherName = teacherName;
         this.subject = subject;
         this.date = date;
+        this.student = student;
+        this.teacher = teacher;
     }
 
     public String getStudentName() {
@@ -56,4 +60,19 @@ public class Class {
         this.subject = subject;
     }
 
+    public String getStudent() {
+        return student;
+    }
+
+    public void setStudent(String student) {
+        this.student = student;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
 }

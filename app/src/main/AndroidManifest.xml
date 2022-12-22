@@ -27,6 +27,13 @@
         android:testOnly="true"
         android:theme="@style/Theme.StudyBuddy">
         <activity
+            android:name="com.example.studybuddy.FirstTeacherLoginActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="com.example.studybuddy.DetailActivityTeacher"
             android:exported="false">
             <meta-data

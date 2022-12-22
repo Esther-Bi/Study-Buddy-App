@@ -20,6 +20,10 @@
         android:title="Payments" />
     <item
         android:id="@+id/action_log_out"
-        android:orderInCategory="102"
-        android:title="log out" />
+        android:orderInCategory="103"
+        android:title="Log Out" />
+    <item
+        android:id="@+id/action_change_user_type"
+        android:orderInCategory="104"
+        android:title="Change User Type" />
 </menu>

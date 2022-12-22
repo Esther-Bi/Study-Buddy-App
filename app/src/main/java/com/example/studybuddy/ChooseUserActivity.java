@@ -48,7 +48,7 @@ public class ChooseUserActivity extends AppCompatActivity {
         });
 
         first_sign_as_teacher.setOnClickListener(v -> {
-            startActivity(new Intent(ChooseUserActivity.this, ProfileActivity.class));
+            startActivity(new Intent(ChooseUserActivity.this, FirstTeacherLoginActivity.class));
         });
 
     }

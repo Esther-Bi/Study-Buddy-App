@@ -1,5 +1,6 @@
 package com.example.studybuddy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -49,12 +55,17 @@ public class MyCoursesActivity extends AppCompatActivity {
     EditText course, grade;
     private CourseAdapter adapter;
 
+    GoogleSignInClient googleSignInClient;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_courses);
 
         setUpRecyclerView();
+
+        googleSignInClient= GoogleSignIn.getClient(MyCoursesActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
@@ -165,8 +176,23 @@ public class MyCoursesActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_log_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MyCoursesActivity.this, MainActivity.class));
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            // When task is successful, sign out from firebase
+                            FirebaseAuth.getInstance().signOut();
+                            // Display Toast
+                            Toast.makeText(getApplicationContext(), "Logout successfully, See you soon (:", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MyCoursesActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                });
+            case R.id.action_change_user_type:
+                startActivity(new Intent(MyCoursesActivity.this, ChooseUserActivity.class));
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

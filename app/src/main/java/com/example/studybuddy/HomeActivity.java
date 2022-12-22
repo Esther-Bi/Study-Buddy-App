@@ -25,8 +25,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,12 +50,17 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore database;
     private ClassAdapter adapter;
 
+    GoogleSignInClient googleSignInClient;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         setUpRecyclerView();
+
+        googleSignInClient= GoogleSignIn.getClient(HomeActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
@@ -119,8 +126,23 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_log_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            // When task is successful, sign out from firebase
+                            FirebaseAuth.getInstance().signOut();
+                            // Display Toast
+                            Toast.makeText(getApplicationContext(), "Logout successfully, See you soon (:", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                });
+            case R.id.action_change_user_type:
+                startActivity(new Intent(HomeActivity.this, ChooseUserActivity.class));
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
