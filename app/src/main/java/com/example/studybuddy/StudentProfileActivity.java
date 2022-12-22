@@ -85,18 +85,22 @@ public class StudentProfileActivity extends AppCompatActivity {
         save.setOnClickListener(v -> {
             //Converting fields to text
             int radioID = gender_group.getCheckedRadioButtonId();
-            gender = findViewById(radioID);
-            String textGender = gender.getText().toString();
-            String textAge = age.getText().toString();
-            String textName = name.getText().toString();
-            String textDegree = degree.getText().toString();
-            String textYear = year.getText().toString();
-
-            if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge)) {
+            if (radioID == -1) {
                 Toast.makeText(StudentProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else {
-                updateProfile(textName, textYear, textDegree, textGender, textAge, user, db);
-                startActivity(new Intent(this, StudentHomeActivity.class));
+                gender = findViewById(radioID);
+                String textGender = gender.getText().toString();
+                String textAge = age.getText().toString();
+                String textName = name.getText().toString();
+                String textDegree = degree.getText().toString();
+                String textYear = year.getText().toString();
+
+                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge)) {
+                    Toast.makeText(StudentProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateProfile(textName, textYear, textDegree, textGender, textAge, user, db);
+                    startActivity(new Intent(this, StudentHomeActivity.class));
+                }
             }
         });
     }
