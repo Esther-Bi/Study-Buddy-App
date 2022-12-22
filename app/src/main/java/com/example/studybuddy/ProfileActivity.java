@@ -76,6 +76,9 @@ public class ProfileActivity extends AppCompatActivity {
     private Button popup_cancel , popup_save , popup_time, popup_date;
     private DatePickerDialog datePickerDialog;
 
+    private Button popup_course_cancel , popup_course_save;
+    private EditText popup_course, popup_grade;
+
     GoogleSignInClient googleSignInClient;
 
     int hour, minute;
@@ -107,12 +110,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         //onclick listener for moving to adding courses for teacher
         add_courses.setOnClickListener(v -> {
-            startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
+            createCoursePopup();
+//            startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
         });
 
         //onclick listener for adding available dates for teacher
         add_dates.setOnClickListener(v -> {
-            createPopup();
+            createDatePopup();
         });
 
         //onclick listener for updating profile button
@@ -170,8 +174,9 @@ public class ProfileActivity extends AppCompatActivity {
         database.collection("teachers").document(userUID).update("name" , textName,
                                                                 "year" , textYear,
                                                                                  "degree" , textDegree,
-                                                                                 "age" , textAge);
-        Toast.makeText(ProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
+                                                                                 "age" , textAge,
+                                                                                 "gender" , textGender);
+        Toast.makeText(ProfileActivity.this, "updated profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
         finish();
     }
@@ -228,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void createPopup(){
+    public void createDatePopup(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View popupView = getLayoutInflater().inflate(R.layout.dates_popup , null);
         popup_time = (Button) popupView.findViewById(R.id.popup_time);
@@ -270,6 +275,7 @@ public class ProfileActivity extends AppCompatActivity {
                 db.collection("teachers")
                         .document(userUID)
                         .update("dates", FieldValue.arrayUnion(date_and_time));
+                dialog.dismiss();
             }
         });
 
@@ -357,6 +363,49 @@ public class ProfileActivity extends AppCompatActivity {
 
         //default should never happen
         return "JAN";
+    }
+
+    public void createCoursePopup(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View coursePopupView = getLayoutInflater().inflate(R.layout.courses_popup , null);
+        popup_course = (EditText) coursePopupView.findViewById(R.id.popup_course);
+        popup_grade = (EditText) coursePopupView.findViewById(R.id.popup_grade);
+        popup_course_cancel = (Button) coursePopupView.findViewById(R.id.popup_course_cancel);
+        popup_course_save = (Button) coursePopupView.findViewById(R.id.popup_course_save);
+
+        dialogBuilder.setView(coursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        popup_course_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        popup_course_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String course = popup_course.getText().toString();
+                String grade = popup_grade.getText().toString();
+                if (TextUtils.isEmpty(course) || TextUtils.isEmpty(grade)) {
+                    Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String course_and_grade = course + " - " + grade;
+                    db.collection("teachers")
+                            .document(userUID)
+                            .update("courses", FieldValue.arrayUnion(course));
+                    db.collection("teachers")
+                            .document(userUID)
+                            .update("grades", FieldValue.arrayUnion(Integer.parseInt(grade)));
+
+                    Toast.makeText(ProfileActivity.this, course_and_grade + " have been added successfully", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+
     }
 
 }

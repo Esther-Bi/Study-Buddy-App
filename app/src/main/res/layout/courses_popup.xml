@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/popup_course"
+        android:layout_width="180dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:hint="enter course name"
+        app:layout_constraintBottom_toTopOf="@id/popup_course_cancel"
+        app:layout_constraintEnd_toStartOf="@+id/popup_grade"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/popup_grade"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:hint="enter grade"
+        app:layout_constraintBottom_toTopOf="@+id/popup_course_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toEndOf="@+id/popup_course"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/popup_course_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/popup_course_save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popup_course" />
+
+    <Button
+        android:id="@+id/popup_course_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/popup_course_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/popup_grade" />
+</androidx.constraintlayout.widget.ConstraintLayout>
