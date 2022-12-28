@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/teacherListSearchView"
         android:iconifiedByDefault="false"
-        android:queryHint="Shape Name"></SearchView>
+        android:queryHint="Search Course Here.."></SearchView>
 
     <ListView
         android:layout_width="match_parent"

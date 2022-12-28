@@ -1,5 +1,7 @@
 package com.example.studybuddy;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -143,12 +147,7 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
             {
                 String selectedDate = (String) (listView.getItemAtPosition(position));
-                Toast.makeText(MyAvailableDatesActivity.this, selectedDate , Toast.LENGTH_SHORT).show();
-
-//                Intent intent = new Intent(getApplicationContext(), DetailActivityTeacher.class);
-//
-//                intent.putExtra("id",selectTeacher);
-//                startActivity(intent);
+                deleteQuestionPopup(selectedDate);
             }
         });
     }
@@ -336,6 +335,44 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void deleteQuestionPopup(String date) {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View popupView = getLayoutInflater().inflate(R.layout.delete_question_popup, null);
+
+        TextView question = popupView.findViewById(R.id.question);
+        Button yes_button = popupView.findViewById(R.id.yes_button);
+        Button no_button = popupView.findViewById(R.id.no_button);
+        question.setText("Are you sure you want to delete\nyou're available date\n" + date + "?");
+
+        dialogBuilder.setView(popupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        yes_button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Log.d(TAG, "delete date");
+                db.collection("teachers")
+                        .document(userID)
+                        .update("dates", FieldValue.arrayRemove(date));
+                Toast.makeText(MyAvailableDatesActivity.this, "date have been deleted successfully", Toast.LENGTH_SHORT).show();
+                setData();
+            }
+        });
+
+        no_button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "don't delete class");
+                dialog.dismiss();
+            }
+        });
+
     }
 
 }
