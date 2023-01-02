@@ -159,8 +159,6 @@ public class HomeActivity extends AppCompatActivity implements RecyclerViewInter
     @Override
     public void onWhatsAppMessageClick(String name, String subject, String date) {
         Toast.makeText(getApplicationContext(), "whatsApp : " + name, Toast.LENGTH_SHORT).show();
-        //String mobile_number = "+972545934720";
-
 
         classesRef.whereEqualTo("teacher" , userUID)
                 .whereEqualTo("studentName" , name).whereEqualTo("subject" , subject)

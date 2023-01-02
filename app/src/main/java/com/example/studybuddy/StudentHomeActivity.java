@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -152,6 +155,62 @@ public class StudentHomeActivity extends AppCompatActivity implements RecyclerVi
     @Override
     public void onWhatsAppMessageClick(String name, String subject, String date) {
         Toast.makeText(getApplicationContext(), "whatsApp : " + name, Toast.LENGTH_SHORT).show();
+
+        classesRef.whereEqualTo("student" , userUID)
+                .whereEqualTo("teacherName" , name).whereEqualTo("subject" , subject)
+                .whereEqualTo("date" , date)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            if(documentSnapshot.exists()){
+                                String teacherID = documentSnapshot.getString("teacher");
+                                db.collection("teachers")
+                                        .document(teacherID)
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()){
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        String mobile_number = (String) document.get("phone");
+                                                        openWhatsApp(mobile_number);
+                                                    } else {
+                                                        Log.d(TAG, "No such document");
+                                                    }
+                                                } else {
+                                                    Log.d(TAG, "get failed with ", task.getException());
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void openWhatsApp(String mobile_number){
+        boolean installed = appInstalledOrNot("com.whatsapp");
+        if (installed){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData ( Uri.parse ( "https://wa.me/" + mobile_number + "/?text=" + "" ) );
+            startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "whatsApp not installed on this device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean appInstalledOrNot(String url){
+        boolean app_installed;
+        try{
+            getPackageManager().getPackageInfo(url, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
     }
 
     @Override
@@ -178,7 +237,7 @@ public class StudentHomeActivity extends AppCompatActivity implements RecyclerVi
                 dialog.dismiss();
                 Log.d(TAG, "delete class");
                 classesRef.whereEqualTo("student" , userUID)
-                        .whereEqualTo("studentName" , name).whereEqualTo("subject" , subject)
+                        .whereEqualTo("teacherName" , name).whereEqualTo("subject" , subject)
                         .whereEqualTo("date" , date)
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
