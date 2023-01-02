@@ -368,7 +368,7 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
             @SuppressLint("LongLogTag")
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "don't delete class");
+                Log.d(TAG, "don't delete date");
                 dialog.dismiss();
             }
         });
