@@ -51,8 +51,8 @@ import android.content.Intent;
 
 public class StudentProfileActivity extends AppCompatActivity {
 
-    EditText name, degree, year, age;
-    Button save, add_courses;
+    EditText name, degree, year, age, phone_number;
+    Button save;
     RadioGroup gender_group;
     RadioButton gender;
     DocumentReference documentReference;
@@ -77,6 +77,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         age = findViewById(R.id.age);
         degree = findViewById(R.id.degree);
         year = findViewById(R.id.year);
+        phone_number = findViewById(R.id.phone);
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
 
@@ -94,11 +95,14 @@ public class StudentProfileActivity extends AppCompatActivity {
                 String textName = name.getText().toString();
                 String textDegree = degree.getText().toString();
                 String textYear = year.getText().toString();
+                String textPhone = phone_number.getText().toString();
 
-                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge)) {
+                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone)) {
                     Toast.makeText(StudentProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                }else if (textPhone.length() != 9){
+                    Toast.makeText(StudentProfileActivity.this, "phone number is illegal", Toast.LENGTH_SHORT).show();
                 } else {
-                    updateProfile(textName, textYear, textDegree, textGender, textAge, user, db);
+                    updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, user, db);
                     startActivity(new Intent(this, StudentHomeActivity.class));
                 }
             }
@@ -118,10 +122,12 @@ public class StudentProfileActivity extends AppCompatActivity {
                             String ageResult = task.getResult().getString("age");
                             String yearResult = task.getResult().getString("year");
                             String degreeResult = task.getResult().getString("degree");
+                            String phoneResult = task.getResult().getString("phone");
                             name.setText(nameResult);
                             age.setText(ageResult);
                             year.setText(yearResult);
                             degree.setText(degreeResult);
+                            phone_number.setText(phoneResult);
                         }else{
                             Toast.makeText(StudentProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
                         }
@@ -129,12 +135,12 @@ public class StudentProfileActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, FirebaseUser user, FirebaseFirestore database) {
+    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, FirebaseUser user, FirebaseFirestore database) {
 
         assert user != null;
         String userUID = user.getUid();
 
-        Student studentToAdd = new Student(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
+        Student studentToAdd = new Student(textName, textYear, textDegree, textGender, textAge, textPhone, userUID); //creating a new user
         database.collection("students").document(userUID).set(studentToAdd); //adding user data to database
 
         Toast.makeText(StudentProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();

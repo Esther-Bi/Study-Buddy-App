@@ -64,7 +64,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    EditText name, degree, year, age;
+    EditText name, degree, year, age, phone_number;
     Button save, add_courses, add_dates;
     RadioGroup gender_group;
     RadioButton gender;
@@ -102,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         age = findViewById(R.id.age);
         degree = findViewById(R.id.degree);
         year = findViewById(R.id.year);
+        phone_number = findViewById(R.id.phone);
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
         add_courses = findViewById(R.id.add_courses);
@@ -132,11 +133,14 @@ public class ProfileActivity extends AppCompatActivity {
                 String textName = name.getText().toString();
                 String textDegree = degree.getText().toString();
                 String textYear = year.getText().toString();
+                String textPhone = phone_number.getText().toString();
 
-                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge)) {
+                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone)) {
                     Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                }else if (textPhone.length() != 9){
+                    Toast.makeText(ProfileActivity.this, "phone number is illegal", Toast.LENGTH_SHORT).show();
                 } else {
-                    updateProfile(textName, textYear, textDegree, textGender, textAge, user, db);
+                    updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, user, db);
                     startActivity(new Intent(this, HomeActivity.class));
                 }
             }
@@ -156,10 +160,12 @@ public class ProfileActivity extends AppCompatActivity {
                             String ageResult = task.getResult().getString("age");
                             String yearResult = task.getResult().getString("year");
                             String degreeResult = task.getResult().getString("degree");
+                            String phoneResult = task.getResult().getString("phone");
                             name.setText(nameResult);
                             age.setText(ageResult);
                             year.setText(yearResult);
                             degree.setText(degreeResult);
+                            phone_number.setText(phoneResult);
                         }else{
                             Toast.makeText(ProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
                         }
@@ -167,19 +173,17 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, FirebaseUser user, FirebaseFirestore database) {
+    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, FirebaseUser user, FirebaseFirestore database) {
 
         assert user != null;
         String userUID = user.getUid();
-
-//        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, userUID); //creating a new user
-//        database.collection("teachers").document(userUID).set(teacherToAdd); //adding user data to database
 
         database.collection("teachers").document(userUID).update("name" , textName,
                                                                 "year" , textYear,
                                                                                  "degree" , textDegree,
                                                                                  "age" , textAge,
-                                                                                 "gender" , textGender);
+                                                                                 "gender" , textGender,
+                                                                                  "phone" , textPhone);
         Toast.makeText(ProfileActivity.this, "updated profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
         finish();

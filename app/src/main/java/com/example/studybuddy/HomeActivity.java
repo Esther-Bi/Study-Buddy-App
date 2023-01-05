@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity implements RecyclerViewInter
         boolean installed = appInstalledOrNot("com.whatsapp");
         if (installed){
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData ( Uri.parse ( "https://wa.me/" + mobile_number + "/?text=" + "" ) );
+            intent.setData ( Uri.parse ( "https://wa.me/" + "+972" + mobile_number + "/?text=" + "" ) );
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "whatsApp not installed on this device", Toast.LENGTH_SHORT).show();

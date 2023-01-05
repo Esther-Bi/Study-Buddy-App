@@ -8,14 +8,16 @@ public class Student {
     private String degree;
     private String gender;
     private String id;
+    private String phone;
 
-    public Student(String name, String year, String degree, String gender, String age, String id) {
+    public Student(String name, String year, String degree, String gender, String age, String phone, String id) {
         this.name = name;
         this.age = age;
         this.year = year;
         this.degree = degree;
         this.gender = gender;
         this.id = id;
+        this.phone = phone;
     }
 
     public String getName() {
@@ -62,5 +64,13 @@ public class Student {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

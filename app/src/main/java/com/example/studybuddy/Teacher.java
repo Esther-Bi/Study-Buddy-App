@@ -19,6 +19,7 @@ public class Teacher implements Parcelable {
     private String year;
     private String degree;
     private String gender;
+    private String phone;
 
 
     public Teacher() {
@@ -29,13 +30,14 @@ public class Teacher implements Parcelable {
         this.name = name;
         this.courses = courses;
     }
-    public Teacher(String name, String year, String degree, String gender, String age, String id) {
+    public Teacher(String name, String year, String degree, String gender, String age,String phone, String id) {
         this.name = name;
         this.age = age;
         this.year = year;
         this.degree = degree;
         this.gender = gender;
         this.id = id;
+        this.phone = phone;
     }
 
     public void setDocumentId(String documentId) {
