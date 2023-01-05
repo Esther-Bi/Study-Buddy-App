@@ -28,13 +28,7 @@
         android:supportsRtl="false"
         android:testOnly="true"
         android:theme="@style/Theme.StudyBuddy">
-        <activity
-            android:name="com.example.studybuddy.CoursesTrialActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name="com.example.studybuddy.MyAvailableDatesActivity"
             android:exported="false">
