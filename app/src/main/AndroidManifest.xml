@@ -8,7 +8,9 @@
         android:minSdkVersion="22"
         android:targetSdkVersion="32" />
 
-    <queries> <package android:name="com.whatsapp" /> </queries>
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -28,7 +30,13 @@
         android:supportsRtl="false"
         android:testOnly="true"
         android:theme="@style/Theme.StudyBuddy">
-
+        <activity
+            android:name="com.example.studybuddy.StudentMyPaymentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name="com.example.studybuddy.MyAvailableDatesActivity"
             android:exported="false">

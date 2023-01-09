@@ -13,6 +13,7 @@ public class Teacher implements Parcelable {
     private String id;
     private String name;
     List<String> courses = new ArrayList<String>();
+    List<Integer> prices = new ArrayList<Integer>();
     List<String> dates = new ArrayList<String>();
     List<Integer> grades = new ArrayList<Integer>();
     private String age;
@@ -20,6 +21,7 @@ public class Teacher implements Parcelable {
     private String degree;
     private String gender;
     private String phone;
+    private String payBox;
 
 
     public Teacher() {
@@ -30,7 +32,7 @@ public class Teacher implements Parcelable {
         this.name = name;
         this.courses = courses;
     }
-    public Teacher(String name, String year, String degree, String gender, String age,String phone, String id) {
+    public Teacher(String name, String year, String degree, String gender, String age,String phone, String pay_box, String id) {
         this.name = name;
         this.age = age;
         this.year = year;
@@ -38,6 +40,7 @@ public class Teacher implements Parcelable {
         this.gender = gender;
         this.id = id;
         this.phone = phone;
+        this.payBox = pay_box;
     }
 
     public void setDocumentId(String documentId) {
@@ -52,6 +55,7 @@ public class Teacher implements Parcelable {
         this.id = in.readString();
         this.name = in.readString();
         this.courses = in.readArrayList(null);
+        this.prices = in.readArrayList(null);
         this.dates = in.readArrayList(null);
     }
 
@@ -114,6 +118,30 @@ public class Teacher implements Parcelable {
         this.gender = gender;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPayBox() {
+        return payBox;
+    }
+
+    public void setPayBox(String pay_box) {
+        this.payBox = pay_box;
+    }
+
+    public List<Integer> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Integer> prices) {
+        this.prices = prices;
+    }
+
     public List<Integer> getGrades() {
         return grades;
     }
@@ -143,6 +171,7 @@ public class Teacher implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeList(courses);
+        dest.writeList(prices);
         dest.writeList(dates);
 
     }

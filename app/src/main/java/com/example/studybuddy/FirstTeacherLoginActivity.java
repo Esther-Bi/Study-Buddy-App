@@ -22,7 +22,7 @@ import android.content.Intent;
 
 public class FirstTeacherLoginActivity extends AppCompatActivity {
 
-    EditText name, degree, year, age, phone_number;
+    EditText name, degree, year, age, phone_number, pay_box;
     Button save;
     RadioGroup gender_group;
     RadioButton gender;
@@ -49,6 +49,7 @@ public class FirstTeacherLoginActivity extends AppCompatActivity {
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
         phone_number = findViewById(R.id.phone);
+        pay_box = findViewById(R.id.pay_box);
 
 
         //onclick listener for updating profile button
@@ -62,13 +63,14 @@ public class FirstTeacherLoginActivity extends AppCompatActivity {
             String textDegree = degree.getText().toString();
             String textYear = year.getText().toString();
             String textPhone = phone_number.getText().toString();
+            String textPayBox = pay_box.getText().toString();
 
-            if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone)) {
+            if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone) || TextUtils.isEmpty(textPayBox)) {
                 Toast.makeText(FirstTeacherLoginActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             }else if (textPhone.length() != 9){
                 Toast.makeText(FirstTeacherLoginActivity.this, "phone number is illegal", Toast.LENGTH_SHORT).show();
             } else {
-                updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, user, db);
+                updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, textPayBox, user, db);
                 startActivity(new Intent(FirstTeacherLoginActivity.this, ProfileActivity.class));
                 finish();
             }
@@ -99,12 +101,12 @@ public class FirstTeacherLoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, FirebaseUser user, FirebaseFirestore database) {
+    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, String textPayBox, FirebaseUser user, FirebaseFirestore database) {
 
         assert user != null;
         String userUID = user.getUid();
 
-        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, textPhone, userUID); //creating a new user
+        Teacher teacherToAdd = new Teacher(textName, textYear, textDegree, textGender, textAge, textPhone, textPayBox, userUID); //creating a new user
         database.collection("teachers").document(userUID).set(teacherToAdd); //adding user data to database
 
         Toast.makeText(FirstTeacherLoginActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();

@@ -64,7 +64,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    EditText name, degree, year, age, phone_number;
+    EditText name, degree, year, age, phone_number, pay_box;
     Button save, add_courses, add_dates;
     RadioGroup gender_group;
     RadioButton gender;
@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
 
     private Button popup_course_cancel , popup_course_save;
-    private EditText popup_course, popup_grade;
+    private EditText popup_course, popup_grade, popup_price;
 
     GoogleSignInClient googleSignInClient;
 
@@ -103,6 +103,8 @@ public class ProfileActivity extends AppCompatActivity {
         degree = findViewById(R.id.degree);
         year = findViewById(R.id.year);
         phone_number = findViewById(R.id.phone);
+        pay_box = findViewById(R.id.pay_box);
+
         save = findViewById(R.id.save);
         gender_group = findViewById(R.id.gender_group);
         add_courses = findViewById(R.id.add_courses);
@@ -134,13 +136,15 @@ public class ProfileActivity extends AppCompatActivity {
                 String textDegree = degree.getText().toString();
                 String textYear = year.getText().toString();
                 String textPhone = phone_number.getText().toString();
+                String textPayBox = pay_box.getText().toString();
 
-                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone)) {
+
+                if (TextUtils.isEmpty(textName) || TextUtils.isEmpty(textDegree) || TextUtils.isEmpty(textYear) || TextUtils.isEmpty(textGender) || TextUtils.isEmpty(textAge) || TextUtils.isEmpty(textPhone) || TextUtils.isEmpty(textPayBox)) {
                     Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                 }else if (textPhone.length() != 9){
                     Toast.makeText(ProfileActivity.this, "phone number is illegal", Toast.LENGTH_SHORT).show();
                 } else {
-                    updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, user, db);
+                    updateProfile(textName, textYear, textDegree, textGender, textAge, textPhone, textPayBox, user, db);
                     startActivity(new Intent(this, HomeActivity.class));
                 }
             }
@@ -161,11 +165,13 @@ public class ProfileActivity extends AppCompatActivity {
                             String yearResult = task.getResult().getString("year");
                             String degreeResult = task.getResult().getString("degree");
                             String phoneResult = task.getResult().getString("phone");
+                            String payBoxResult = task.getResult().getString("payBox");
                             name.setText(nameResult);
                             age.setText(ageResult);
                             year.setText(yearResult);
                             degree.setText(degreeResult);
                             phone_number.setText(phoneResult);
+                            pay_box.setText(payBoxResult);
                         }else{
                             Toast.makeText(ProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
                         }
@@ -173,7 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, FirebaseUser user, FirebaseFirestore database) {
+    public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, String textPayBox, FirebaseUser user, FirebaseFirestore database) {
 
         assert user != null;
         String userUID = user.getUid();
@@ -183,7 +189,8 @@ public class ProfileActivity extends AppCompatActivity {
                                                                                  "degree" , textDegree,
                                                                                  "age" , textAge,
                                                                                  "gender" , textGender,
-                                                                                  "phone" , textPhone);
+                                                                                  "phone" , textPhone,
+                                                                                  "payBox" , textPayBox);
         Toast.makeText(ProfileActivity.this, "updated profile successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
         finish();
@@ -383,6 +390,7 @@ public class ProfileActivity extends AppCompatActivity {
         final View coursePopupView = getLayoutInflater().inflate(R.layout.courses_popup , null);
         popup_course = (EditText) coursePopupView.findViewById(R.id.popup_course);
         popup_grade = (EditText) coursePopupView.findViewById(R.id.popup_grade);
+        popup_price = (EditText) coursePopupView.findViewById(R.id.popup_price);
         popup_course_cancel = (Button) coursePopupView.findViewById(R.id.popup_course_cancel);
         popup_course_save = (Button) coursePopupView.findViewById(R.id.popup_course_save);
 
@@ -402,18 +410,23 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String course = popup_course.getText().toString();
                 String grade = popup_grade.getText().toString();
-                if (TextUtils.isEmpty(course) || TextUtils.isEmpty(grade)) {
+                String price = popup_price.getText().toString();
+
+                if (TextUtils.isEmpty(course) || TextUtils.isEmpty(grade) || TextUtils.isEmpty(price)) {
                     Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String course_and_grade = course + " - " + grade;
+                    String course_grade_price = course + " - " + grade + " - " + price + " ₪";
                     db.collection("teachers")
                             .document(userUID)
                             .update("courses", FieldValue.arrayUnion(course));
                     db.collection("teachers")
                             .document(userUID)
                             .update("grades", FieldValue.arrayUnion(Integer.parseInt(grade)));
+                    db.collection("teachers")
+                            .document(userUID)
+                            .update("prices", FieldValue.arrayUnion(Integer.parseInt(price)));
 
-                    Toast.makeText(ProfileActivity.this, course_and_grade + " have been added successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, course_grade_price + " have been added successfully", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }

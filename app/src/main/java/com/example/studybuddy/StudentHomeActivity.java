@@ -126,7 +126,7 @@ public class StudentHomeActivity extends AppCompatActivity implements RecyclerVi
                 finish();
                 return true;
             case R.id.action_payments:
-                startActivity(new Intent(StudentHomeActivity.this, MyPaymentsActivity.class));
+                startActivity(new Intent(StudentHomeActivity.this, StudentMyPaymentActivity.class));
                 finish();
                 return true;
             case R.id.action_log_out:
@@ -189,6 +189,16 @@ public class StudentHomeActivity extends AppCompatActivity implements RecyclerVi
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onPayForClassClick(String name, String subject, String date) {
+
+    }
+
+    @Override
+    public void onApprovePaymentForClassClick(String name, String subject, String date) {
+
     }
 
     private void openWhatsApp(String mobile_number){

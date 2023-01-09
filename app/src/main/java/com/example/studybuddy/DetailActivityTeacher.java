@@ -35,6 +35,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.util.Arrays;
+
 public class DetailActivityTeacher extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Teacher currentTeacher;
@@ -76,6 +78,7 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
         datesSpinner.setOnItemSelectedListener(this);
 
         String[] classes = currentTeacher.getCourses().toArray((new String[currentTeacher.getCourses().size()]));
+        Integer[] prices = currentTeacher.getPrices().toArray((new Integer[currentTeacher.getPrices().size()]));
 
         ArrayAdapter courseAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, classes);
@@ -98,7 +101,9 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             String name = (String) document.get("name");
-                            Class newClass = new Class(name, currentTeacher.getName(), courseValueFromSpinner, dateValueFromSpinner, studentID, teacherID);
+                            int index_of_course = Arrays.asList(classes).indexOf(courseValueFromSpinner);
+                            int cost = prices[index_of_course];
+                            Class newClass = new Class(name, currentTeacher.getName(), courseValueFromSpinner, dateValueFromSpinner, studentID, teacherID, cost);
                             db.collection("classes").add(newClass);
                             db.collection("teachers")
                                     .document(teacherID)

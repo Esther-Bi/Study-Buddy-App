@@ -67,7 +67,7 @@ public class MyCoursesActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button popup_course_cancel , popup_course_save;
-    private EditText popup_course, popup_grade;
+    private EditText popup_course, popup_grade, popup_price;
     private String currentID;
 
     Button add_courses;
@@ -149,6 +149,7 @@ public class MyCoursesActivity extends AppCompatActivity {
         final View coursePopupView = getLayoutInflater().inflate(R.layout.courses_popup , null);
         popup_course = (EditText) coursePopupView.findViewById(R.id.popup_course);
         popup_grade = (EditText) coursePopupView.findViewById(R.id.popup_grade);
+        popup_price = (EditText) coursePopupView.findViewById(R.id.popup_price);
         popup_course_cancel = (Button) coursePopupView.findViewById(R.id.popup_course_cancel);
         popup_course_save = (Button) coursePopupView.findViewById(R.id.popup_course_save);
 
@@ -168,18 +169,23 @@ public class MyCoursesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String course = popup_course.getText().toString();
                 String grade = popup_grade.getText().toString();
-                if (TextUtils.isEmpty(course) || TextUtils.isEmpty(grade)) {
+                String price = popup_price.getText().toString();
+
+                if (TextUtils.isEmpty(course) || TextUtils.isEmpty(grade) || TextUtils.isEmpty(price)) {
                     Toast.makeText(MyCoursesActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String course_and_grade = course + " - " + grade;
+                    String course_grade_price = course + " - " + grade + " - " + price + " ₪";
                     db.collection("teachers")
                             .document(currentID)
                             .update("courses", FieldValue.arrayUnion(course));
                     db.collection("teachers")
                             .document(currentID)
                             .update("grades", FieldValue.arrayUnion(Integer.parseInt(grade)));
+                    db.collection("teachers")
+                            .document(currentID)
+                            .update("prices", FieldValue.arrayUnion(Integer.parseInt(price)));
 
-                    Toast.makeText(MyCoursesActivity.this, course_and_grade + " have been added successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyCoursesActivity.this, course_grade_price + " have been added successfully", Toast.LENGTH_SHORT).show();
                     setData();
                     dialog.dismiss();
                 }

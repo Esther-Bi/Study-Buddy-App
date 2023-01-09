@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="15dp"
+    app:cardBackgroundColor="#FFE1D4">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:text="student name"
+            android:textAlignment="center"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/studentName"
+            android:text="subject"
+            android:textAlignment="center"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="170dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/subject"
+            android:text="date"
+            android:textAlignment="center"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/cost_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/studentName"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:text="cost:"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/cost"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/subject"
+            android:layout_toEndOf="@+id/cost_text"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="2dp"
+            android:text="cost"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+
+        <Button
+            android:id="@+id/payment_confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:layout_below="@+id/cost"
+            android:text="payment confirmation"
+            android:textSize="9dp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
