@@ -56,9 +56,6 @@ public class BookClass extends AppCompatActivity implements AdapterView.OnItemSe
     String courseValueFromSpinner, dateValueFromButton, fromHourValueFromSpinner, toHourValueFromSpinner;
     private Button start_filter, datesButton;
 
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
-    private Button popup_cancel , popup_save, popup_date;
     private DatePickerDialog datePickerDialog;
     private ArrayList<Teacher> filteredTeachers = new ArrayList<Teacher>();
 
@@ -372,7 +369,7 @@ public class BookClass extends AppCompatActivity implements AdapterView.OnItemSe
                 finish();
                 return true;
             case R.id.action_payments:
-                startActivity(new Intent(BookClass.this, MyPaymentsActivity.class));
+                startActivity(new Intent(BookClass.this, StudentMyPaymentActivity.class));
                 finish();
                 return true;
             case R.id.action_log_out:

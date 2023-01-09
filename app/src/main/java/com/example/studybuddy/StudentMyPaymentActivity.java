@@ -1,7 +1,5 @@
 package com.example.studybuddy;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 //import android.support.v7.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,24 +28,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class StudentMyPaymentActivity extends AppCompatActivity implements RecyclerViewInterface {
 
@@ -246,6 +243,63 @@ public class StudentMyPaymentActivity extends AppCompatActivity implements Recyc
                 });
     }
 
+    private void rateTeacherPopup(String name, String subject, String date) {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View popupView = getLayoutInflater().inflate(R.layout.teacher_rating_popup, null);
+
+        RatingBar rt = popupView.findViewById(R.id.ratingBar);
+        Button save_rating = popupView.findViewById(R.id.save_rating);
+
+        LayerDrawable stars=(LayerDrawable)rt.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
+
+        save_rating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                classesRef.whereEqualTo("student" , studentID)
+                        .whereEqualTo("teacherName" , name).whereEqualTo("subject" , subject)
+                        .whereEqualTo("date" , date).whereEqualTo("studentApproval" , 1)
+                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    if(documentSnapshot.exists()){
+                                        String teacherID = documentSnapshot.getString("teacher");
+                                        db.collection("teachers")
+                                                .document(teacherID)
+                                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()){
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document.exists()) {
+                                                                String rating = String.valueOf(rt.getRating());
+                                                                DecimalFormat df = new DecimalFormat("#.###");
+                                                                double curr_rating  = Double.valueOf(df.format((Double) document.get("rating")));
+                                                                double new_rating = Double.valueOf(df.format((curr_rating+Double.parseDouble(rating))/2.0));
+                                                                db.collection("teachers").document(teacherID).update("rating",new_rating);
+                                                            } else {
+                                                                Log.d(TAG, "No such document");
+                                                            }
+                                                        } else {
+                                                            Log.d(TAG, "get failed with ", task.getException());
+                                                        }
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            }
+                        });
+                dialog.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(popupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
     public void approvePaymentQuestionPopup(String name, String subject, String date) {
         dialogBuilder = new AlertDialog.Builder(this);
         final View popupView = getLayoutInflater().inflate(R.layout.delete_question_popup, null);
@@ -280,6 +334,7 @@ public class StudentMyPaymentActivity extends AppCompatActivity implements Recyc
                                 }
                             }
                         });
+                rateTeacherPopup(name, subject, date);
             }
         });
 

@@ -132,6 +132,9 @@ public class MyPaymentsActivity extends AppCompatActivity implements RecyclerVie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_classes:
+                startActivity(new Intent(MyPaymentsActivity.this, HomeActivity.class));
+                return true;
             case R.id.action_edit_profile:
                 startActivity(new Intent(MyPaymentsActivity.this, ProfileActivity.class));
                 finish();

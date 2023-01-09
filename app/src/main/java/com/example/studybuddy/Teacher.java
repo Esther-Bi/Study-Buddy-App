@@ -22,6 +22,7 @@ public class Teacher implements Parcelable {
     private String gender;
     private String phone;
     private String payBox;
+    private double rating = 0.01;
 
 
     public Teacher() {
@@ -57,6 +58,7 @@ public class Teacher implements Parcelable {
         this.courses = in.readArrayList(null);
         this.prices = in.readArrayList(null);
         this.dates = in.readArrayList(null);
+        this.rating = in.readDouble();
     }
 
     @Exclude
@@ -150,6 +152,14 @@ public class Teacher implements Parcelable {
         this.grades = grades;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
     public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
         @Override
         public Teacher createFromParcel(Parcel in) {
@@ -173,6 +183,6 @@ public class Teacher implements Parcelable {
         dest.writeList(courses);
         dest.writeList(prices);
         dest.writeList(dates);
-
+        dest.writeDouble(rating);
     }
 }
