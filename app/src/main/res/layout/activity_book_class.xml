@@ -7,16 +7,79 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/filterCourseDate">
+
+        <Spinner
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:id="@+id/coursesSpinner"
+            android:layout_marginStart="20dp" />
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:id="@+id/datesButton"
+            android:layout_marginStart="5dp"
+            android:text="choose date" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/filterHours">
+
+        <Spinner
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:id="@+id/fromHourSpinner"
+            android:layout_marginStart="20dp" />
+
+        <Spinner
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:id="@+id/toHourSpinner"
+            android:layout_marginStart="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/filter">
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:id="@+id/filterFromSpinner"
+            android:layout_marginStart="100dp"
+            android:text="start filter" />
+
+    </LinearLayout>
+
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/teacherListSearchView"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Course Here.."></SearchView>
+        android:queryHint="Search Teacher Name Here.."></SearchView>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
         android:id="@+id/teachersListView"/>
 
 </LinearLayout>

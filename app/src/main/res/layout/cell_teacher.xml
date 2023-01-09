@@ -4,14 +4,13 @@ android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="120dp">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:id="@+id/teacherName"
-    android:gravity="center_vertical"
-    android:text="teacher name"
-    android:textSize="20dp"
-    android:layout_marginLeft="20dp"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/teacherName"
+        android:gravity="center_vertical"
+        android:text="teacher name"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"/>
 
 </RelativeLayout>
