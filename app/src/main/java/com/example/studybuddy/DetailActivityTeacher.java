@@ -40,7 +40,7 @@ import java.util.Arrays;
 public class DetailActivityTeacher extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Teacher currentTeacher;
-    private TextView chosenCourse, chosenDate;
+    private TextView chosenCourse, chosenCost, chosenDate;
     private Spinner coursesSpinner, datesSpinner;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -49,6 +49,10 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
 
     String courseValueFromSpinner, dateValueFromSpinner;
     private Button bookClass;
+
+    String teacherID, studentID;
+    String[] classes;
+    Integer[] prices;
 
 
 
@@ -63,12 +67,13 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
         Toast.makeText(this, currentTeacher.getName(), Toast.LENGTH_SHORT).show();
 
 //        Get teacher's ID
-        String teacherID = currentTeacher.getId();
+        teacherID = currentTeacher.getId();
 //        Get my ID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String studentID = user.getUid();
+        studentID = user.getUid();
 
         chosenCourse = findViewById(R.id.chosenCourse);
+        chosenCost = findViewById(R.id.chosenCost);
         chosenDate = findViewById(R.id.chosenDate);
         coursesSpinner = findViewById(R.id.coursesSpinner);
         datesSpinner = findViewById(R.id.datesSpinner);
@@ -77,8 +82,8 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
         coursesSpinner.setOnItemSelectedListener(this);
         datesSpinner.setOnItemSelectedListener(this);
 
-        String[] classes = currentTeacher.getCourses().toArray((new String[currentTeacher.getCourses().size()]));
-        Integer[] prices = currentTeacher.getPrices().toArray((new Integer[currentTeacher.getPrices().size()]));
+        classes = currentTeacher.getCourses().toArray((new String[currentTeacher.getCourses().size()]));
+        prices = currentTeacher.getPrices().toArray((new Integer[currentTeacher.getPrices().size()]));
 
         ArrayAdapter courseAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, classes);
@@ -128,6 +133,9 @@ public class DetailActivityTeacher extends AppCompatActivity implements AdapterV
         if (parent.getId() == R.id.coursesSpinner) {
             courseValueFromSpinner = parent.getItemAtPosition(position).toString();
             chosenCourse.setText("Chosen course: " + courseValueFromSpinner);
+            int index_of_course = Arrays.asList(classes).indexOf(courseValueFromSpinner);
+            int cost = prices[index_of_course];
+            chosenCost.setText("Price: " + cost + " ₪");
         }
         if (parent.getId() == R.id.datesSpinner) {
             dateValueFromSpinner = parent.getItemAtPosition(position).toString();

@@ -16,19 +16,35 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
-        android:text="Chosen course" />
+        android:text="Chosen course"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/chosenCost"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chosenCourse"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="58dp"
+        android:textSize="18dp"
+        android:text="Chosen course cost" />
 
     <TextView
         android:id="@+id/chosenDate"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chosenCourse"
+        android:layout_below="@+id/chosenCost"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="58dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="58dp"
+        android:textSize="18dp"
         android:text="Chosen date" />
 
     <TextView
@@ -36,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginTop="30dp"
         android:text="Choose course" />
 
@@ -54,8 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="100dp"
+        android:layout_marginEnd="30dp"
         android:text="Choose date" />
 
     <Spinner
@@ -71,16 +87,16 @@
 
     <Button
         android:id="@+id/bookClass"
-        android:layout_width="162dp"
-        android:layout_height="101dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/chosenDate"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="125dp"
-        android:layout_marginTop="145dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginBottom="58dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="127dp"
         android:text="Book class" />
 
 </RelativeLayout>
