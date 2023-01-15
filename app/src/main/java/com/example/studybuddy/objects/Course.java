@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.objects;
 
 public class Course {
 

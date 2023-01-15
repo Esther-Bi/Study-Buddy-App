@@ -1,6 +1,4 @@
-package com.example.studybuddy;
-
-import static android.content.ContentValues.TAG;
+package com.example.studybuddy.viewModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,48 +15,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studybuddy.R;
+import com.example.studybuddy.adapter.PaymentAdapter;
+import com.example.studybuddy.model.PaymentsModel;
+import com.example.studybuddy.objects.Class;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 public class MyPaymentsActivity extends AppCompatActivity implements RecyclerViewInterface {
 
     private static final String TAG = "MyPaymentsActivity";
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private CollectionReference classesRef = db.collection("classes");
-
-    private FirebaseAuth auth;
+    PaymentsModel model = new PaymentsModel(this,FirebaseAuth.getInstance().getCurrentUser().getUid(), "classes");
     private PaymentAdapter adapter;
-    private String teacherID;
-
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-
     GoogleSignInClient googleSignInClient;
 
 
@@ -66,38 +43,16 @@ public class MyPaymentsActivity extends AppCompatActivity implements RecyclerVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_payments);
+        googleSignInClient = model.googleSignInClient();
 
         setUpRecyclerView();
 
-        googleSignInClient= GoogleSignIn.getClient(MyPaymentsActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
-
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        classesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    if(documentSnapshot.exists()){
-                        Date date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy - HH:mm");
-                        Class current_class = documentSnapshot.toObject(Class.class);
-                        if (current_class.compare(formatter.format(date))){
-                            String dbKey = documentSnapshot.getId();
-                            classesRef.document(dbKey)
-                                    .update("past", "yes");
-                        }
-                    }
-                }
-            }
-        });
+        model.updatePastCourses();
     }
 
     private void setUpRecyclerView() {
 
-        assert user != null;
-        teacherID = user.getUid();
-
-        Query query = classesRef.whereEqualTo("teacher", teacherID).whereEqualTo("past","yes");
+        Query query = model.buildClassQuery("teacher");
         FirestoreRecyclerOptions<Class> options = new FirestoreRecyclerOptions.Builder<Class>()
                 .setQuery(query, Class.class)
                 .build();
@@ -191,24 +146,7 @@ public class MyPaymentsActivity extends AppCompatActivity implements RecyclerVie
 
     @Override
     public void onApprovePaymentForClassClick(String name, String subject, String date) {
-        classesRef.whereEqualTo("teacher" , teacherID)
-                .whereEqualTo("studentName" , name).whereEqualTo("subject" , subject)
-                .whereEqualTo("date" , date).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            if(documentSnapshot.exists()){
-                                Class curr = documentSnapshot.toObject(Class.class);
-                                if (curr.getStudentApproval() == 0) {
-                                    Toast.makeText(MyPaymentsActivity.this, "student didn't pay yet", Toast.LENGTH_SHORT).show();
-                                } else{
-                                    approvePaymentQuestionPopup(name, subject, date);
-                                }
-                            }
-                        }
-                    }
-                });
+        model.onApprovePayment(name, subject, date);
     }
 
     public void approvePaymentQuestionPopup(String name, String subject, String date) {
@@ -229,24 +167,8 @@ public class MyPaymentsActivity extends AppCompatActivity implements RecyclerVie
             public void onClick(View view) {
                 dialog.dismiss();
                 Log.d(TAG, "class paid");
-                classesRef.whereEqualTo("teacher" , teacherID)
-                        .whereEqualTo("studentName" , name).whereEqualTo("subject" , subject)
-                        .whereEqualTo("date" , date)
-                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                    if(documentSnapshot.exists()){
-                                        String dbKey = documentSnapshot.getId();
-                                        Log.d(TAG, "The database Key is : "+ dbKey);
-                                        classesRef.document(dbKey).delete();
-                                        Toast.makeText(MyPaymentsActivity.this, "paid successfully", Toast.LENGTH_SHORT).show();
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }
-                        });
+                model.click_yes(name, subject,date);
+                adapter.notifyDataSetChanged();
             }
         });
 

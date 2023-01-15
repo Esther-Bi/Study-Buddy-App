@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.objects;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

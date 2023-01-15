@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.viewModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,63 +14,54 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.example.studybuddy.R;
+import com.example.studybuddy.model.StudentProfileModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-//
-//public class ProfileActivity extends AppCompatActivity {
-//
-//    EditText name, degree, year;
-//    Button save;
-//    FirebaseDatabase database =  FirebaseDatabase.getInstance();
-//    DatabaseReference reference;
-//    DocumentReference documentReference;
-//    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_profile);
-//
-//        name = findViewById(R.id.name);
-//        degree = findViewById(R.id.degree);
-//        year = findViewById(R.id.year);
-//        save = findViewById(R.id.save);
-
-
 import android.content.Intent;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class StudentProfileActivity extends AppCompatActivity {
+
+    StudentProfileModel model = new StudentProfileModel(this);
 
     EditText name, degree, year, age, phone_number;
     Button save;
     RadioGroup gender_group;
     RadioButton gender;
     DocumentReference documentReference;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db = model.getDb();
 
     GoogleSignInClient googleSignInClient;
 
+    private String url = "http://" + "10.0.2.2" + ":" + 5000 + "/";
+    private String postBodyString;
+    private MediaType mediaType;
+    private RequestBody requestBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_profile);
 
-        googleSignInClient= GoogleSignIn.getClient(StudentProfileActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+        googleSignInClient= model.googleSignInClient();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userUID = user.getUid();
-        documentReference = db.collection("students").document(userUID);
+        FirebaseUser user = model.getUser();
+        String userUID = model.getUserUID();
+        documentReference = model.getDocumentReference();
 
 
         name = findViewById(R.id.name);
@@ -113,26 +104,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        documentReference.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.getResult().exists()){
-                            String nameResult = task.getResult().getString("name");
-                            String ageResult = task.getResult().getString("age");
-                            String yearResult = task.getResult().getString("year");
-                            String degreeResult = task.getResult().getString("degree");
-                            String phoneResult = task.getResult().getString("phone");
-                            name.setText(nameResult);
-                            age.setText(ageResult);
-                            year.setText(yearResult);
-                            degree.setText(degreeResult);
-                            phone_number.setText(phoneResult);
-                        }else{
-                            Toast.makeText(StudentProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        model.modelOnStart(name, age,year,degree, StudentProfileActivity.this);
     }
 
     public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, FirebaseUser user, FirebaseFirestore database) {
@@ -140,10 +112,13 @@ public class StudentProfileActivity extends AppCompatActivity {
         assert user != null;
         String userUID = user.getUid();
 
-        Student studentToAdd = new Student(textName, textYear, textDegree, textGender, textAge, textPhone, userUID); //creating a new user
-        database.collection("students").document(userUID).set(studentToAdd); //adding user data to database
+//        without server
+//        Student studentToAdd = new Student(textName, textYear, textDegree, textGender, textAge, textPhone, userUID); //creating a new user
+//        database.collection("students").document(userUID).set(studentToAdd); //adding user data to database
 
-        Toast.makeText(StudentProfileActivity.this, "Updated Profile successfully", Toast.LENGTH_SHORT).show();
+        String data = "add_student:" + textName + "_" + textYear+ "_" + textDegree + "_" + textGender+ "_" + textAge + "_" + textPhone+ "_" + userUID;
+        postRequest(data, url);
+
         startActivity(new Intent(StudentProfileActivity.this, MainActivity.class));
         finish();
     }
@@ -195,5 +170,45 @@ public class StudentProfileActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private RequestBody buildRequestBody(String msg) {
+        postBodyString = msg;
+        mediaType = MediaType.parse("text/plain");
+        requestBody = RequestBody.create(postBodyString, mediaType);
+        return requestBody;
+    }
+
+
+    private void postRequest(String message, String URL) {
+        RequestBody requestBody = buildRequestBody(message);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().post(requestBody).url(URL).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(StudentProfileActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        call.cancel();
+                    }
+                });
+            }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Toast.makeText(StudentProfileActivity.this, response.body().string(), Toast.LENGTH_LONG).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
 
 }

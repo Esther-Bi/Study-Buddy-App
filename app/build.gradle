@@ -58,4 +58,6 @@ dependencies {
 
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
 }

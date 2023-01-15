@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.studybuddy.R;
+import com.example.studybuddy.objects.Teacher;
 
 import java.util.List;
 

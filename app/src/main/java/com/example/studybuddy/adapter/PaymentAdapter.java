@@ -1,17 +1,17 @@
-package com.example.studybuddy;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+package com.example.studybuddy.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybuddy.R;
+import com.example.studybuddy.viewModel.RecyclerViewInterface;
+import com.example.studybuddy.objects.Class;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 

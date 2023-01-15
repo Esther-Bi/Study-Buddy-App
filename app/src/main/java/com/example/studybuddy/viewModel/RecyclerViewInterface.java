@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.viewModel;
 
 public interface RecyclerViewInterface {
 //    void onWhatsAppMessageClick(int position);

@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.viewModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,57 +19,41 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.example.studybuddy.R;
+import com.example.studybuddy.model.ProfileModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-//
-//public class ProfileActivity extends AppCompatActivity {
-//
-//    EditText name, degree, year;
-//    Button save;
-//    FirebaseDatabase database =  FirebaseDatabase.getInstance();
-//    DatabaseReference reference;
-//    DocumentReference documentReference;
-//    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_profile);
-//
-//        name = findViewById(R.id.name);
-//        degree = findViewById(R.id.degree);
-//        year = findViewById(R.id.year);
-//        save = findViewById(R.id.save);
-
-
-
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    ProfileModel model = new ProfileModel(this);
 
     EditText name, degree, year, age, phone_number, pay_box;
     Button save, add_courses, add_dates;
     RadioGroup gender_group;
     RadioButton gender;
     DocumentReference documentReference;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db = model.getDb();
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -85,17 +69,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     private String userUID;
 
+    private String url = "http://" + "10.0.2.2" + ":" + 5000 + "/";
+    private String postBodyString;
+    private MediaType mediaType;
+    private RequestBody requestBody;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        googleSignInClient= GoogleSignIn.getClient(ProfileActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+        googleSignInClient= model.googleSignInClient();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        userUID= user.getUid();
-        documentReference = db.collection("teachers").document(userUID);
+        FirebaseUser user = model.getUser();
+        userUID= model.getUserUID();
+        documentReference = model.getDocumentReference();
 
 
         name = findViewById(R.id.name);
@@ -114,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
         //onclick listener for moving to adding courses for teacher
         add_courses.setOnClickListener(v -> {
             createCoursePopup();
-//            startActivity(new Intent(ProfileActivity.this, MyCoursesActivity.class));
         });
 
         //onclick listener for adding available dates for teacher
@@ -155,43 +143,23 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        documentReference.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.getResult().exists()){
-                            String nameResult = task.getResult().getString("name");
-                            String ageResult = task.getResult().getString("age");
-                            String yearResult = task.getResult().getString("year");
-                            String degreeResult = task.getResult().getString("degree");
-                            String phoneResult = task.getResult().getString("phone");
-                            String payBoxResult = task.getResult().getString("payBox");
-                            name.setText(nameResult);
-                            age.setText(ageResult);
-                            year.setText(yearResult);
-                            degree.setText(degreeResult);
-                            phone_number.setText(phoneResult);
-                            pay_box.setText(payBoxResult);
-                        }else{
-                            Toast.makeText(ProfileActivity.this, "no profile yet" , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        model.modelOnStart(name, age,year,degree, ProfileActivity.this);
     }
 
     public void updateProfile(String textName, String textYear, String textDegree, String textGender, String textAge, String textPhone, String textPayBox, FirebaseUser user, FirebaseFirestore database) {
-
         assert user != null;
         String userUID = user.getUid();
-
-        database.collection("teachers").document(userUID).update("name" , textName,
-                                                                "year" , textYear,
-                                                                                 "degree" , textDegree,
-                                                                                 "age" , textAge,
-                                                                                 "gender" , textGender,
-                                                                                  "phone" , textPhone,
-                                                                                  "payBox" , textPayBox);
-        Toast.makeText(ProfileActivity.this, "updated profile successfully", Toast.LENGTH_SHORT).show();
+//        without server
+//        database.collection("teachers").document(userUID).update("name" , textName,
+//                                                                "year" , textYear,
+//                                                                                 "degree" , textDegree,
+//                                                                                 "age" , textAge,
+//                                                                                 "gender" , textGender,
+//                                                                                  "phone" , textPhone,
+//                                                                                  "payBox" , textPayBox);
+//        Toast.makeText(ProfileActivity.this, "updated profile successfully", Toast.LENGTH_SHORT).show();
+        String data = "add_teacher:" + textName + "_" + textYear+ "_" + textDegree + "_" + textGender+ "_" + textAge + "_" + textPhone+ "_" + userUID;
+        postRequest(data, url);
         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
         finish();
     }
@@ -290,9 +258,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                 } else {
                     String date_and_time = date + " - " + time;
-                    db.collection("teachers")
-                            .document(userUID)
-                            .update("dates", FieldValue.arrayUnion(date_and_time));
+                    model.updateData(date_and_time);
                     Toast.makeText(ProfileActivity.this, date_and_time + " have been added successfully", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
@@ -434,4 +400,42 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private RequestBody buildRequestBody(String msg) {
+        postBodyString = msg;
+        mediaType = MediaType.parse("text/plain");
+        requestBody = RequestBody.create(postBodyString, mediaType);
+        return requestBody;
+    }
+
+
+    private void postRequest(String message, String URL) {
+        RequestBody requestBody = buildRequestBody(message);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().post(requestBody).url(URL).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ProfileActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        call.cancel();
+                    }
+                });
+            }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Toast.makeText(ProfileActivity.this, response.body().string(), Toast.LENGTH_LONG).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
 }

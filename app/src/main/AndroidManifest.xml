@@ -29,100 +29,101 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:testOnly="true"
-        android:theme="@style/Theme.StudyBuddy">
+        android:theme="@style/Theme.StudyBuddy"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name="com.example.studybuddy.StudentMyPaymentActivity"
+            android:name="com.example.studybuddy.viewModel.StudentMyPaymentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.MyAvailableDatesActivity"
+            android:name="com.example.studybuddy.viewModel.MyAvailableDatesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.FirstTeacherLoginActivity"
+            android:name="com.example.studybuddy.viewModel.FirstTeacherLoginActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.DetailActivityTeacher"
+            android:name="com.example.studybuddy.viewModel.DetailActivityTeacher"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.StudentProfileActivity"
+            android:name="com.example.studybuddy.viewModel.StudentProfileActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.TeacherAdapter"
+            android:name="com.example.studybuddy.adapter.TeacherAdapter"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.MyPaymentsActivity"
+            android:name="com.example.studybuddy.viewModel.MyPaymentsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.BookClass"
+            android:name="com.example.studybuddy.viewModel.BookClass"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.StudentHomeActivity"
+            android:name="com.example.studybuddy.viewModel.StudentHomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.ChooseUserActivity"
+            android:name="com.example.studybuddy.viewModel.ChooseUserActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.MyCoursesActivity"
+            android:name="com.example.studybuddy.viewModel.MyCoursesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.ProfileActivity"
+            android:name="com.example.studybuddy.viewModel.ProfileActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.HomeActivity"
+            android:name="com.example.studybuddy.viewModel.HomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.studybuddy.MainActivity"
+            android:name="com.example.studybuddy.viewModel.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

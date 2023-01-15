@@ -1,6 +1,4 @@
-package com.example.studybuddy;
-
-import static android.content.ContentValues.TAG;
+package com.example.studybuddy.viewModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,26 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.example.studybuddy.R;
+import com.example.studybuddy.model.MyAvailableDatesModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,10 +39,8 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
 
     private static final String TAG = "MyAvailableDatesActivity";
 
+    MyAvailableDatesModel model = new MyAvailableDatesModel(this, FirebaseAuth.getInstance().getCurrentUser().getUid());
     ListView listView;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference teachersRef = db.collection("teachers");
-    private String userID;
     Button add_available_dates;
     GoogleSignInClient googleSignInClient;
 
@@ -72,75 +58,25 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.datesListView);
         add_available_dates = findViewById(R.id.add_available_dates);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        userID = user.getUid();
-        googleSignInClient= GoogleSignIn.getClient(MyAvailableDatesActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+        googleSignInClient= model.googleSignInClient();
 
         setData();
-//        ArrayList<String> datesList = new ArrayList<>();
-//        teachersRef.whereEqualTo("id" , userID).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-//                            Teacher teacher = documentSnapshot.toObject(Teacher.class);
-//                            for (int i=0 ; i<teacher.getDates().size() ; i++){
-//                                datesList.add(teacher.getDates().get(i));
-//                                setList(datesList);
-//                                setUpOnclickListener();
-//                            }
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @SuppressLint("LongLogTag")
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d(TAG, e.toString());
-//                    }
-//                });
-//
-//        add_available_dates.setOnClickListener(v -> {
-//            createPopup();
-//        });
-
-//        Toast.makeText(MyAvailableDatesActivity.this, "_ _ _ " + datesList.size() , Toast.LENGTH_SHORT).show();
     }
 
     private void setData(){
-        ArrayList<String> datesList = new ArrayList<>();
-        teachersRef.whereEqualTo("id" , userID).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Teacher teacher = documentSnapshot.toObject(Teacher.class);
-                            for (int i=0 ; i<teacher.getDates().size() ; i++){
-                                datesList.add(teacher.getDates().get(i));
-                                setList(datesList);
-                                setUpOnclickListener();
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                    }
-                });
-
+        model.modelSetData();
         add_available_dates.setOnClickListener(v -> {
             createPopup();
         });
     }
 
-    private void setList(ArrayList<String> listToShow){
+    public void setList(ArrayList<String> listToShow){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,listToShow);
         listView.setAdapter(adapter);
     }
 
 
-    private void setUpOnclickListener()
+    public void setUpOnclickListener()
     {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -190,10 +126,7 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String time = popup_time.getText().toString();
                 String date = popup_date.getText().toString();
-                String date_and_time = date + " - " + time;
-                db.collection("teachers")
-                        .document(userID)
-                        .update("dates", FieldValue.arrayUnion(date_and_time));
+                model.upDateTime(time, date);
                 setData();
                 dialog.dismiss();
             }
@@ -356,9 +289,7 @@ public class MyAvailableDatesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 Log.d(TAG, "delete date");
-                db.collection("teachers")
-                        .document(userID)
-                        .update("dates", FieldValue.arrayRemove(date));
+                model.removeDate(date);
                 Toast.makeText(MyAvailableDatesActivity.this, "date have been deleted successfully", Toast.LENGTH_SHORT).show();
                 setData();
             }

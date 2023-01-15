@@ -1,4 +1,4 @@
-package com.example.studybuddy;
+package com.example.studybuddy.adapter;
 //import android.support.annotation.NonNull;
 //import android.support.v7.androidwidget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybuddy.objects.Course;
+import com.example.studybuddy.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
